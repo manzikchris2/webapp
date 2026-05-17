@@ -1,0 +1,494 @@
+* {
+    border: 0;
+    padding: 0;
+    outline: none;
+
+}
+body::-webkit-scrollbar{
+    display: none;
+}
+.horizontal {
+    display:flex;
+    flex-direction: row !important;
+    flex-wrap:wrap;
+}
+
+select{
+    width: 35%;
+    padding: 10px;
+    border: 3px solid rgb(115,213,235);
+    border-radius: 10px;
+}
+option{
+    padding: 10px;
+    background-color:white;
+}
+
+a img{
+    width:30px;
+    height: 30px;
+    background-color: rgb(151,241,245);
+    border-radius: 50%;
+}
+a:hover{
+    border-radius: 20%;
+     border-bottom: 1px solid  rgb(115,213,235)
+}
+#main-message{
+    position:absolute;
+    top: 40%;
+    left:43.5%;
+    font-size:50px;
+    color:  rgb(115,213,235);
+    pointer-events: none;
+    animation: welcome 4s ease-in 0.5s 1 forwards;
+}
+select:-webkit-any{
+    display: none;
+}
+#loader{
+    min-width: 20px;
+    min-height: 20px;
+    border-radius: 50%;
+    background-color: transparent;
+    color: black;
+    animation: load 2s linear infinite
+}
+.main_view{
+    height: fit-content;
+}
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+.hidden{
+    display: none;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    color: white;
+    
+} 
+
+.body_img{
+    background-image: url("/page/image/backgrounds/samurai-warrior-stands-cliff-overlooking-ocean-storm.jpg");
+     background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+#partner-registration-form:hover,#partnet-login:hover{
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.564);
+}
+#home_nav{
+    flex-direction: row;
+    gap: 15px;
+    border: 1px solid rgb(115,213,235);
+    border-radius: 20px;
+    height: 40px;
+    transition: all 2s ease 0s;
+}
+#home_nav a{
+    position: relative;
+    right:37%
+}
+button{
+    padding: 10px;
+    border-radius: 5px;
+    background-color:rgb(115,213,235);
+}
+.nav-btn{
+    color:  rgb(115,213,235);
+    background-color: transparent;
+}
+.nav-btn i{
+    color: rgb(115,213,235);
+}
+.nav-btn:hover{
+    border-bottom: 1px solid  rgb(115,213,235);
+}
+span{
+     padding: 10px;
+      background-color:rgb(115, 213, 235);
+      color: black;
+      border-radius: 10px;
+      cursor:pointer;
+}
+
+#left-side{
+    display: none;
+    width: 300px;
+    height: 100vh;
+    position: absolute;
+    right: 0;
+    background-color:rgb(115,213,235);
+
+}
+#close-btn{
+    position: relative;
+    left: 90%;
+    font-weight:bolder;
+    font-size: 20px; 
+}
+.side-btns{
+    padding: 20px;
+    width: 90%;
+    box-shadow:0 2px 5px black;
+}
+#menu-btn{
+    position: relative;
+    left: 38%;
+}
+
+form{
+    display: flex;
+    flex-direction:column;
+    width: 100%;
+    gap: 10px;
+}
+.container{
+    width: 100%;
+}
+.container i{
+    position: relative;
+    bottom: 35px;
+    right: 160px;
+    color:rgb(3, 69, 84)
+}
+form input{
+    border: 3px solid rgb(115, 213, 235);
+    width: 35%;
+    height: 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+#tel-container{
+    flex-direction:row;
+    width: 90%;
+}
+#tel-container input{
+    width: 30%;
+}
+#partner-registation{
+    flex-direction: row;
+    height: 100vh;
+}
+#tel-container select{
+    height: fit-content;
+    padding: 5px;
+    border-radius: 5px;
+    border: 3px solid #73d5eb;
+}
+#p-tel-err{
+    position: relative;
+    top: 5px;
+}
+#sucess{
+    display: flex;
+    justify-content:center;
+    height: fit-content;
+}
+#sucess i{
+    scale: 5;
+    position: relative;
+    left: 160px;
+}
+#sucesss p{
+    font-family: monospace;
+    font-size: large;
+    font-weight: bold;
+}
+.form_back_btn{
+    background-color: white;
+}
+.span-container{
+    display: flex;
+    gap: 30px;
+}
+.invalid{
+    border: 2px solid red;
+}
+.navbar{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+
+}
+#main-log img {
+    width: 80px;
+    height: 80px;
+}
+#nav-buttons{
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+    margin-right: 20px; 
+    margin-bottom: 27px;
+   
+}
+#partner_login{
+    flex-direction: row;
+    gap: 30px;
+    height: 90vh;
+}
+#partner_login img{
+   justify-content: space-between;
+    width: 50%;
+    background-color: white;
+}
+.err{
+    color: red;
+    font-weight: bold;
+    position: relative;
+    bottom: 20px;
+    margin: 0;
+}
+#show-pass{
+    display:block;
+    width: 20px;
+    position: relative;
+    bottom: 70px;
+    left: 155px;
+    background-color: transparent;
+}
+#partnet-login{
+    flex: 1;
+}
+#pat-image{
+    width: 670px;
+}
+#pat-image img{
+    border-radius: 45%;
+}
+#imageInput{
+    display:none;
+}
+#drop_area{
+    border:2px dashed #73d5eb;
+    border-radius: 10px;
+    height: fit-content;
+    width: 500px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    flex-direction:column;
+    gap: 10px;
+
+}
+#drop_area:hover{
+    border:2px dashed darkgrey;
+    background-color: rgb(56, 55, 55);
+}
+#drop_area div{
+    pointer-events: none;
+}
+#drop_area.drop_over{
+   border:2px dashed darkgrey;
+   background-color: rgb(56, 55, 55);
+   transform:scale(4);
+}
+#img_display{
+    display:none;
+    width:60%;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px aqua;
+    pointer-events:none;
+    background-color:black;
+    position: relative;
+    bottom: 65px;
+
+}
+
+/* home page*/
+
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    margin-top: 30px;
+    flex-direction: column;
+}
+#add-product form{
+    gap: 20px;
+}
+.product_line{
+    display:flex;
+    width: 100%;
+    height: 50px;
+    gap: 20px;
+}
+.product_line h1{
+    text-decoration: none;
+    padding: 0;
+    margin: 0;
+}
+table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-family: Arial, sans-serif;
+        }
+th, td{
+    margin-right: 10px;
+    text-align: center;
+    width: calc(100% / 5)
+}
+th:hover, td:hover{
+     font-size: 25px;
+}
+td:nth-child(1){
+    text-align: left;
+}
+td:nth-child(-1){
+    display: flex;
+}
+td img{
+    width: 50px;
+    height: 50px;
+}
+.delete-btn{
+    background-color: red;
+}
+
+
+.product_in {
+    color: white;
+    background-color: transparent;
+    text-align: center;
+}
+.product_in:focus{
+    border:2px solid #73d5eb;
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+}
+.order_box{
+    width: 400px;
+    padding: 20px;
+    background-color: rgb(115, 213, 235);
+    color: black;
+}
+.order_box p{
+    pointer-events: none;
+}
+.order_box h{
+    color: rgb(115, 213, 235);
+    padding: 10px;
+    background-color: black;
+    font-weight:bolder;
+    font-size: 20px;
+    margin-left:35%;
+}
+.order_box h2{
+    pointer-events: none;
+    width: 90%;
+    text-align: center;
+}
+.order_box h3{
+    pointer-events: none;
+}
+.hidden{
+    display: none;
+}
+.accept-btn{
+    padding: 20px;
+    width: 120px;
+    background-color: black;
+    color:#73d5eb;
+    transition: all 2s ease;
+}
+.accept-box{
+    width: 90%;
+    margin-left: 30%;
+}
+
+#prefix{
+    width: 63px;
+}
+
+#profile_form {
+    background-color: transparent;
+    flex-direction: column;
+    padding: 20px;
+    width: 80%;
+}
+
+#profile_updtae {
+    display: flex;
+    padding: 10px;
+    color: white;
+    background-color: black;
+    border-radius: 50%;
+    width: 40px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    bottom: 40px;
+    left: 130px;
+}
+.profile_inputs {
+    border: none;
+    padding: 10px;
+    outline: none;
+    width: 100%;
+    text-align: center;
+    border-radius: 5px;
+}
+#profile_submit {
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    color: rgb(151, 219, 242);
+    background-color: black;
+    transition: all 1s ease;
+}
+#profile_submit:hover {
+    color: black;
+    background-color: rgb(151, 219, 242);
+    border: 3px solid black;
+    padding: 12px;
+}
+
+/* animations*/
+@keyframes slide-left{
+    form{transform: translateX(0)}
+    to{transform: translateX(-100%)}
+}
+@keyframes slide-right{
+    form{transform: translateX(0)}
+    to{transform: translateX(100%)}
+}
+@keyframes load{
+    20%{
+        border-top: 4px solid black;
+        transform: rotate(360deg);
+    }
+    60%{
+         border-top: 4px solid black;
+         border-right: 4px solid black;
+        transform: rotate(360deg);
+    }
+    90%{
+         border-top: 4px solid black;
+         border-right: 4px solid black;
+         border-bottom: 4px solid black;
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes welcome{
+    from{
+        transform:scale(1);
+    }
+    to{transform:scale(85)}
+}

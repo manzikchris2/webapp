@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            http-equiv="Cache-Control"
+            content="no-cache, no-store, must-revalidate"
+        />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+        <title>Document</title>
+        <title>Document</title>
+        <link rel="stylesheet" href="/page/css/home.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    </head>
+    <body class="body_img">
+        <div id="log-container" style="display: none">
+            <div id="log-in" class="container">
+                <div id="logo-login">
+                    <img
+                        src="/page/image/png/login.png"
+                        alt="none"
+                        width="300"
+                        height="300"
+                    />
+                </div>
+                <div id="log-in-box">
+                    <button
+                        class="close-btn"
+                        class="close-div"
+                        onclick="hide_log()"
+                    >
+                        X
+                    </button>
+                    <form id="log-form">
+                        <h><b>Member Login</b></h>
+                        <i class="fas fa-user"></i>
+                        <input
+                            type="text"
+                            class="form-in"
+                            placeholder="username"
+                            required
+                        />
+                        <i class="fas fa-lock"></i>
+                        <input
+                            id="customer_pass"
+                            type="password"
+                            class="form-in"
+                            placeholder="password"
+                            required
+                        />
+                        <span
+                            id="show-pass"
+                            class="fas fa-eye"
+                            onclick="show('customer_pass', 'log-form')"
+                        ></span>
+                        
+                        <a id="forgot-pass" >Forgot password ?</a>
+                        <button id="login-btn" class="btn">sign in</button>
+                        <p id="pass_err" class="hidden"></p>
+                        <p>don't have an account ?</p>
+                    </form>
+                    <button
+                        id="register-btn"
+                        class="btn"
+                        onclick="trans_form(1)"
+                    >
+                        register
+                    </button>
+                </div>
+            </div>
+            <div id="register-container" style="display: none">
+                <div id="reg-logo">
+                    <img src="/page/image/png/register-logo.png" alt="gear5" />
+                </div>
+                <div id="reg-form">
+                    <button id="reg-x" class="close-div" onclick="hide_log()">
+                        <b>X</b>
+                    </button>
+                    <form id="register-f">
+                        <i class="fas fa-user"></i>
+                        <input
+                            type="text"
+                            class="form-in"
+                            id="c-f-name"
+                            placeholder="Name"
+                            required
+                        />
+                        <p id="c-f-name_err" class="hidden"></p>
+                        <i class="fas fa-user"></i>
+                        <input
+                            type="text"
+                            class="form-in"
+                            id="c-f-surname"
+                            placeholder="surname"
+                            required
+                        />
+                        <i class="fas fa-envelope"></i>
+                        <input
+                            id="c-f-email"
+                            type="email"
+                            class="form-in"
+                            placeholder="email"
+                            required
+                        />
+                        <p id="c-f-email_err" class="hidden"></p>
+                        <i class="fas fa-lock"></i>
+                        <input
+                            id="c-f-pass"
+                            type="password"
+                            class="form-in"
+                            placeholder="password"
+                            required
+                        />
+                        <p id="c-f-pass_err" class="hidden"></p>
+                        <i class="fas fa-lock"></i>
+                        <input
+                            id="c-f-c-pass"
+                            type="password"
+                            class="form-in"
+                            placeholder="repeat password"
+                            required
+                        />
+                        <p id="c-f-c-pass_err" class="hidden"></p>
+                        <i class="fas fas-eye"></i>
+                        <i class="fas fa-building"></i>
+                        <input
+                            id="c-f-address"
+                            type="text"
+                            class="form-in"
+                            placeholder="address"
+                            required
+                        />
+                        <p id="c-f-address_err" class="hidden error"></p>
+                        <i class="fas fa-phone"></i>
+                        <input
+                            id="c-f-phone"
+                            type="tel"
+                            class="form-in"
+                            placeholder="phone number"
+                            required
+                        />
+                        <p id="c-f-phone_err" class="hidden"></p>
+                        <button id="register-button" class="btn">
+                            register
+                        </button>
+                        <p id="c-f-main_err" class="hidden"></p>
+                        <p>Have an account?</p>
+                    </form>
+                    <button
+                        id="log-in-button"
+                        class="btn"
+                        onclick="trans_form(0)"
+                    >
+                        login
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="product-container">
+            <nav id="nav-welcome" class="navbar">
+                <div id="main-log" oncilck="">
+                    <img src="/page/image/png/logo.png" />
+                </div>
+                <div id="main-title"><h>M D DELIVERY</h></div>
+                <button id="sign-in-btn" class="btn">SIGN IN</button>
+            </nav>
+            <div id="box1"></div>
+            <div id="1" class="slidels-container">
+                <div class="group">
+                    <div class="track">
+                        <div class="sliders"><img src="/page/image/P2.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P10.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P11.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P6.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P10.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P22.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P2.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P10.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P11.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P19.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P17.jpg" /></div>
+                        <div class="sliders"><img src="image/image/P14.jpg" /></div>
+                    </div>
+                    <div class="track">
+                        <div class="sliders"><img src="/page/image/P2.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P10.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P11.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P6.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P10.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P22.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P2.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P10.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P11.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P19.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P17.jpg" /></div>
+                        <div class="sliders"><img src="/page/image/P14.jpg" /></div>
+                    </div>
+                </div>
+            </div>
+            <div id="description">
+                <div class="describe">
+                    <img src="/page/image/home/partner.jpg" alt="none" />
+                    <p>
+                        text about we are an amzing delivery company and how it
+                        is in you best interest to be our partner
+                    </p>
+                    <a
+                        class="home-links"
+                        href="http://localhost/partner"
+                        target="_blank"
+                        >Click Here</a
+                    >
+                </div>
+                <div class="describe">
+                    <img src="/page/image/home/deliver.jpg" alt="none" />
+                    <p>
+                        text about how being our driver is the best option and
+                        to be honest ypu got nothing to do tobe honest
+                    </p>
+                    <a class="home-links" href="http://localhost/deliver" target="_blank"
+                        >Click Here</a
+                    >
+                </div>
+                <div class="describe">
+                    <img src="/page/image/home/describe.jpg" alt="none" />
+                    <p>
+                        at this point am out of ideas so lorem flip didn't work
+                        ahhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+                    </p>
+                    <a class="home-links" href="http://localhost/home3.html"
+                        >Click Here</a
+                    >
+                </div>
+            </div>
+            <div id="module_show">
+                <model-viewer
+                    src="/image/modules/luffys_straw_hat/scene.gltf"
+                    alt="3D Product Model"
+                    auto-rotate
+                    auto-rotate-delay="0"
+                    rotation-per-second="15deg"
+                    camera-controls
+                    interaction-prompt="auto"
+                    exposure="1.2"
+                    shadow-intensity="0.8"
+                    style="width: 100%; height: 600px; pointer-events: none"
+                >
+                </model-viewer>
+            </div>
+
+            <footer>
+                <div class="f_row">
+                    <div class="f_column">
+                        <h>DISCOVER US ?</h>
+                        <a href="http://localhost/partner.html"
+                            >Want to be our patrener</a
+                        >
+                        <a href="http://localhost/deliver.html"
+                            >want to deliver for us</a
+                        >
+                        <a href="http://localhost/home3.html">about us</a>
+                    </div>
+                    <div class="f_column">
+                        <h>ASSISTANCE</h>
+                    </div>
+                    <div class="f_column">
+                        <h>LEGAL</h>
+                    </div>
+                </div>
+                <div id="f_row2">
+                    <i class="fab fa-facebook" href=""></i>
+                    <i class="fab fa-twitter" href=""></i>
+                    <i class="fab fa-instagram" href=""></i>
+                </div>
+            </footer>
+        </div>
+        <script
+            type="module"
+            src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.2.0/model-viewer.min.js"
+        ></script>
+        <script src="page/js/home.js"></script>
+    </body>
+</html>

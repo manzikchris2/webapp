@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            http-equiv="Cache-Control"
+            content="no-cache, no-store, must-revalidate"
+        />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+        <title>payment</title>
+        <link rel="stylesheet" href="/page/css/payment.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+    </head>
+    <body class="container">
+        <form class="container" id="card_box" style="display:none;">
+            <div class="tittle">
+                <h>Payment</h>
+            </div>
+            <label class="check_box">
+                <input
+                    type="radio"
+                    class="p_choice"
+                    name="p_choice"
+                    id="old_cards"
+                />
+                <h> saved cards</h>
+            </label>
+            <div id="saved_cards" class="container" style="display: none"></div>
+            <label class="check_box">
+                <input
+                    type="radio"
+                    class="p_choice"
+                    name="p_choice"
+                    id="new_card"
+                />
+                <h> new card</h>
+            </label>
+            <div id="new_cards" class="container" style="display: none">
+                <div class="name row">
+                    <label
+                        for="card_name"
+                        class="num-labels"
+                        id="card_name_label"
+                        >name on the card</label
+                    >
+                    <input type="text" id="card_name" />
+                </div>
+                <div class="name row">
+                    <label
+                        for="card_number"
+                        class="num-labels"
+                        id="card_number_label"
+                        >card number</label
+                    >
+                    <input type="text" id="card_number" >
+                    <img src="image/mainp.jpg" alt="mone" id="card-image" />
+                </div>
+
+                <div class="card_nums row">
+                    <div class="row">
+                        <label
+                            for="card_date"
+                            class="num-labels"
+                            id="card_date_label"
+                            >date</label
+                        >
+                        <input type="text" id="card_date" />
+                    </div>
+                    <div class="row">
+                        <label
+                            for="card_cvs"
+                            class="num-labels"
+                            id="card_cvs_label"
+                            >cvs</label
+                        >
+                        <input type="password" id="card_cvs" />
+                    </div>
+                </div>
+            </div>
+            <button type="submit" id="pay-btn">Pay</button>
+        </form>
+        <div id="adress_box" >
+            <form class="container">
+                <label id="saved_adress" class="address_label">
+                    <input
+                        type="radio"
+                        id="saved_address"
+                        name="adress"
+                        class="adress"
+                    />
+                    <p id="s_address_p">home address</p>
+                    <div id="s_adress_box"></div>
+                </label>
+
+                <label id="r_adress" class="address_label">
+                    <input
+                        type="radio"
+                        id="r_address"
+                        name="adress"
+                        class="adress"
+                    />
+                    <p id="r_address_p">random address</p>
+                    <div id="r_address_box" class="container">
+                        <i id="r_address_icon" class="fas fa-paper-plane"></i>
+                        <input type="text" id="adress_in" />
+                    </div>
+                </label>
+
+                <span id="submit">Submit</span>
+            </form>
+        </div>
+        <script src="page/js/payment.js"></script>
+    </body>
+</html>

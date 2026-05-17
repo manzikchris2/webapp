@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home</title>
+    <link rel="stylesheet" href="/page/css/deliver.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+</head>
+<body>
+    <header>
+        <nav id="home_nav">
+            <a href="/deliver/murugo" id="main-log"><img src="/page/image/png/logo.png"></a>
+            <div class="nav_box">
+                <span id="home_btn" class="fas fa-house"></span>
+                 <span onclick="get_orders_history()" class="fas fa-file-alt"></span>
+                
+                <div class="icon_boxs">
+                    <span id="new_orders"class="notifaction"></span>
+                    <span onclick="get_orders()" class="fas fa-briefcase"></span>
+                </div>
+                <div class="icon_boxs">
+                    <span id="current_orders"class="notifaction"></span>
+                    <span onclick="get_current_order()" class="fas fa-biking"></span>
+                </div>
+                
+            </div>
+            <span id="settings" class="fas fa-cog" onclick="show_side(true)"></span>
+        </nav>
+    </header>
+    <main class="main">
+        <section id="main-coontent">
+            <h1>welcome to delivery</h1>
+            <p> lets bting happness to people with a smile</p>
+            <span id="get_order_btn" onclick="get_orders()" class="main_span"> orders</span>
+
+        </section>
+        <section id="show_orders"></section>
+
+        <aside id="side_menu">
+            <span id="close_side" onclick="show_side(false)">X</span>
+            <div id="side_div">
+                <span id='profiel' class="fas fa-user"> profile</span>
+                <span id="logout" class="fas fa-door-open" onclick="logout()"> logout</span>
+            </div>
+        </aside>
+    </main>
+    <script src="/page/js/deliver.js"></script>
+</body>
+</html>

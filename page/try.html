@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                height: 100vh;
+            }
+            #show_orders {
+                width: 100%;
+                height: 50%;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                flex-direction:column;
+            }
+            .current_order{
+                width: 90%;
+                height: fit-content;
+                padding: 10px;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                flex-direction:column;
+                gap: 15px;
+                border-radius: 10px;
+            }
+            .current_order_table{
+                background-color:black;
+                color: white;
+                border-radius: 10px;
+                width: 80%;
+            }
+            .current_order_table img{
+                width: 50px;
+                height: 50px;
+            }
+            .current_order_table  td{
+                padding: 10px;
+            }
+            #delivered_btn{
+                color: white;
+                background-color: black;
+                padding: 10px;
+                border-radius: 10px;
+                cursor: default;
+                transition: all .5s  ease-in 
+            }
+            #delivered_btn:hover{
+                color: rgb(3, 255, 3);
+                background-color: grey;
+            }
+        </style>
+    </head>
+    <body>
+        <section id="show_orders" style="display: flex">
+            <div
+                class="current_order"
+                style="background-image:url('/page/image/partners/p_69f8b4d4.jpg');"
+            >
+                <h1>Kwamapenzi</h1>
+                <table class="current_order_table">
+                    <tbody>
+                        <tr>
+                            <td><img src="/page/image/p_69f8c6.jpg" /></td>
+                            <td>tiramisu</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td><img src="/page/image/p_69fe60.jpg" /></td>
+                            <td>oreo milkshake</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td><img src="/page/image/p_69f205.jpg" /></td>
+                            <td>manzi</td>
+                            <td>1</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>from:via principe umberto 29</td>
+                            <td>to:via mima 12</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <span id="delivered_btn"> delivered </span>
+            </div>
+        </section>
+    </body>
+</html>

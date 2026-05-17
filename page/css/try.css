@@ -1,0 +1,102 @@
+*{
+    padding: 0;
+    margin: 0;
+
+}
+body{
+    height: 100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background-color: black;
+    flex-direction:column;
+    gap: 20px
+}
+.container{
+    height: 100vh;
+    width: 100%;
+    display:flex;
+    position: absolute;
+    background-color: rgba(255,255,255,0.1);
+}
+.cat{
+    width: 500px;
+    height:500px;
+    background-color: red;
+    position: relative;
+    left: 50%;
+}
+.money{
+    width: 100px;
+    height:100px;
+    background: white;
+}
+#frame{
+    display:flex;
+    overflow: hidden;
+    width: fit-content;
+    height:fit-content;
+    gap: 10px;
+    position:relative;
+    top: 50px;
+}
+.partner{
+    width: 100px;
+    height: 100px;
+    background-color:black;
+}
+.prods{
+    background-color: black;
+    height: 500px;
+    width: 800px;
+}
+.prods p{
+    color: white;
+    font-size: 35px;
+}
+table{
+    width: 100%;
+    height: fit-content;
+    text-align:center;
+}
+td img{
+    width: 50px;
+    height: 50px;
+}
+tfoot td{
+    font-size:larger;
+    font-weight:800;
+     border-top: 5px solid black;
+     padding: 20px;
+
+}
+.all{
+    padding: 30px;
+    border: 5px solid black;
+}
+.imma{
+    display: flex;
+    gap: 0px
+}
+.imma img{
+    margin-right: -25px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid black;
+
+}
+.min{
+    height:300px;
+    width:300px;
+    overflow: hidden;
+    background: black;
+    transform-origin:top center;
+    animation: shrink 1s ease 0s 1 forwards;
+}
+@keyframes shrink{
+    from{transform: scaleY(0)}
+    to{transform: scaleY(1)}
+
+}
+

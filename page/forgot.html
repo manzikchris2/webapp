@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>recovery</title>
+    <style>
+        body{
+            background-image:url('/page/image/backgrounds/illustration-anime-city.jpg');
+            background-repeat:no-repeat;
+            background-position:center;
+            background-size:cover;
+            display:flex;
+            justify-content: center;
+            align-items:center;
+            height: 100vh;
+        }
+        .invalid{
+            border: 3px solid red;
+        }
+        #content_box{
+            display: flex;
+            flex-direction: column;
+            width: 500px;
+            height:fit-content;
+            padding: 20px;
+            border-radius: 10px;
+            border: 3px solid pink;
+            background-color:rgba(255, 192, 203, 0.456);
+        }
+        h2{
+            font-size: 20px;
+            color: rgb(195, 106, 120);
+            margin-left: 30%;
+        }
+        input{
+            border: none;
+            border-radius: 10px;
+            padding: 10px;
+            background: linear-gradient(to right, rgb(0, 213, 255), pink);
+            color: white;
+            outline: none;
+            font-size: 20px
+
+        }
+        span{
+            border:none;
+            padding:15px;
+            background-color: pink;
+            width:fit-content;
+            border-radius: 10px;
+            margin-left: 40%;
+            color:honeydew;
+            transition:all  2s ease; 
+        }
+        span:hover{
+            background:  linear-gradient(to bottom right,  pink,rgb(0, 213, 255));
+            
+
+        }
+    </style>
+</head>
+<body>
+    <div id="content_box">
+        <h2>please insert your mail</h2>
+        <input id='email' type="eamil" placehorder="email">
+        <p id="message" class="message"></p>
+        <span id="submit" type="submit"> submit</span>
+    </div>
+    <script src="page/js/forgot.js"></script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.invalid {
+    border: 5px solid red;
+}
+div {
+    width: 100%;
+    flex-direction: column;
+    transform-origin: top center;
+}
+input[type="radio"] {
+    display: none;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 10px;
+}
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.row input {
+    width: 100%;
+    border-radius: 10px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    height: 100vh;
+}
+.num-labels {
+    position: relative;
+
+    top: 35px;
+}
+.card-option {
+    width: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px
+}
+#number {
+    width: 100%;
+}
+.old_payments {
+    width: 90%;
+}
+.new_payments {
+    width: 90%;
+}
+.card_display {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+.check_box {
+    width: 100%;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.5s linear;
+}
+.check_box:has(.p_choice:checked) {
+    border-bottom: 3px solid black;
+}
+.cards:checked + .card_display {
+    border: 3px solid black;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
+form {
+    background-color: rgb(151, 219, 242);
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    gap: 10px;
+    padding: 20px;
+}
+form input {
+    border: 0;
+    padding: 20px;
+    outline: none;
+    text-align: center;
+    font-size: 15px;
+}
+form img {
+    position: relative;
+    left: -200px;
+    width: 50px;
+    height: 50px;
+}
+#card-image {
+    display: none;
+    top: -55px;
+}
+.card_nums {
+    flex-direction: row;
+    width: 100%;
+    position: relative;
+    bottom: 10px;
+}
+.card_names {
+    flex-direction: row;
+    width: 100%;
+}
+.label_active {
+    font-size: 10px;
+    top: 15px;
+}
+#card_date {
+    width: 100px;
+}
+#card_cvs {
+    width: 70px;
+}
+.saved_img {
+    left: -280px;
+}
+#saved_cards p {
+    text-align: center;
+    background-color: white;
+    color: black;
+    padding: 20px;
+}
+
+button {
+    border: 0;
+    padding: 15px;
+    width: 100%;
+    background-color: black;
+    color: rgb(151, 219, 242);
+}
+#message {
+    background-color: rgb(151, 219, 242);
+    color: black;
+}
+
+#adress_box {
+    width: 500px;
+    height: fit-content;
+    border-radius: 10px;
+}
+
+.address_label {
+    width: 100%;
+}
+
+#adress_box form {
+    width: 100%;
+    height: 100%;
+}
+#adress_in {
+    width: 90%;
+    border: 4px solid black;
+    border-radius: 30px;
+    outline: none;
+    text-align: left;
+    padding-left: 55px;
+    font-size: 20px;
+}
+
+#submit {
+    display: none;
+    width: 60%;
+    background-color: black;
+    color: rgb(105, 203, 203);
+    padding: 20px;
+    text-align: center;
+    border-radius: 30px;
+    animation: slide_box 2s ease 0s forwards;
+    transition: all 1s ease;
+}
+#submit:hover {
+    width: 65%;
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+}
+#r_address_box {
+    display: none;
+    animation: slide_box_2 2s ease 0s forwards;
+}
+
+#r_address_box i {
+    position: relative;
+    top: 55px;
+    right: 170px;
+    font-size: 25px;
+}
+
+@keyframes shrink_box {
+    from {
+        transform: scaleY(1);
+    }
+    to {
+        transform: scaleY(0);
+    }
+}
+@keyframes slide_box {
+    from {
+        width: 20%;
+    }
+    to {
+        width: 90%;
+    }
+}
+@keyframes slide_box_2 {
+    from {
+        width: 20%;
+    }
+    to {
+        width: 100%;
+    }
+}
+@keyframes slide_i {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(500px);
+    }
+}

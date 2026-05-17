@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            http-equiv="Cache-Control"
+            content="no-cache, no-store, must-revalidate"
+        />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+        <title>Delivery</title>
+        <link rel="stylesheet" href="/page/css/deliver.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a id="main-logo" href="/welcome"
+                    ><img src="/page/image//png/logo.png"
+                /></a>
+                <h1>Welcome</h1>
+                <button id="nav_log_btn" onclick="show_main_log(0)">
+                    login
+                </button>
+            </nav>
+        </header>
+        <main id="main">
+            <section id="main_log_container" style="display: none">
+                <button id="close_log" onclick="show_main_log(1)">X</button>
+                <div id="login">
+                    <div id="login_png">
+                        <img src="/page/image/png/deliver.png" />
+                    </div>
+
+                    <form id="login-form">
+                        <h1>login user</h1>
+                        <label for="d-user">
+                            <i class="fas fa-user"></i> user name
+                        </label>
+                        <input
+                            type="text"
+                            id="d-user"
+                            class="main_form_in"
+                            required
+                        />
+                        <label for="d-pass">
+                            <i class="fas fa-lock"></i> password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="d-pass"
+                            class="main_form_in"
+                            required
+                        />
+                        <span
+                            id="show_login"
+                            class="fas fa-eye"
+                            value="1"
+                            onclick="show_pass('d-pass', 'show_login')"
+                        ></span>
+                        <a id="forgot" href="/retrive">forgort password ?</a>
+                        <button type="submit" id="login_btn" onclick="login()">
+                            login
+                        </button>
+                        <div id="login_message"></div>
+                        <div class="p_div">
+                            Don't have an account
+                            <span id="to_register" onclick="show_form(1)"
+                                >register</span
+                            >
+                        </div>
+                    </form>
+                </div>
+                <div id="register">
+                    <div id="register_png">
+                        <img src="/page/image/png/chopper.png" />
+                    </div>
+
+                    <form id="register_form">
+                        <h1>register form</h1>
+                        <div id="box1" class="reg_in_box">
+                            <label for="name"
+                                >name <i class="fas fa-user"></i
+                            ></label>
+                            <input id="name" type="text" reqiured />
+                            <label for="s-name"
+                                >surname <i class="fas fa-user"></i
+                            ></label>
+                            <input id="s-name" type="text" reqiured />
+                            <div class="span_box">
+                                <span
+                                    class="next_reg_box"
+                                    onclick="next_reg_box(1, 1)"
+                                >
+                                    -></span
+                                >
+                            </div>
+                            <p id="box1_message" class="message"></p>
+                        </div>
+                        <div id="box2" class="reg_in_box" style="display: none">
+                            <label for="email"
+                                >email <i class="fas fa-envelope"></i
+                            ></label>
+                            <input id="email" type="email" reqiured />
+
+                            <label for="tel_box"
+                                >telphone <i class="fas fa-phone"></i
+                            ></label>
+                            <div id="tel_box">
+                                <select id="tel-prefix">
+                                    <option value="" selected>
+                                        <span class="fas fa-phone"></span>
+                                    </option>
+                                    <option value="+250" selected>rwa</option>
+                                    <option value="+39">it</option>
+                                </select>
+                                <input id="tel-number" type="tel" />
+                            </div>
+                            <label for="address">
+                                address <i class="fas fa-building"></i
+                            ></label>
+                            <input type="text" id="address" />
+                            <div class="span_box">
+                                <span
+                                    class="prev_reg_box"
+                                    onclick="next_reg_box(2, -1)"
+                                >
+                                    <-
+                                </span>
+                                <span
+                                    class="next_reg_box"
+                                    onclick="next_reg_box(2, 1)"
+                                >
+                                    -></span
+                                >
+                            </div>
+                            <p id="box2_message" class="message"></p>
+                        </div>
+                        <div id="box3" class="reg_in_box" style="display: none">
+                            <label>password <i class="fas fa-lock"></i></label>
+                            <input id="password" type="password" required />
+                            <span
+                                id="password_eye"
+                                class="fas fa-eye"
+                                value="1"
+                                onclick="show_pass('password', 'password_eye')"
+                            ></span>
+                            <label
+                                >confirm password <i class="fas fa-lock"></i
+                            ></label>
+                            <input id="c-password" type="password" required />
+                            <span
+                                id="c-password_eye"
+                                class="fas fa-eye"
+                                value="1"
+                                onclick="
+                                    show_pass('c-password', 'c-password-eye')
+                                "
+                            ></span>
+                            <div class="span_box">
+                                <span
+                                    class="prev_reg_box"
+                                    onclick="next_reg_box(3, -1)"
+                                >
+                                    <-</span
+                                >
+                                <span
+                                    class="next_reg_box"
+                                    onclick="next_reg_box(3, 1)"
+                                >
+                                    -></span
+                                >
+                            </div>
+                            <p id="box3_message" class="message"></p>
+                        </div>
+                        <div id="box4" class="reg_in_box" style="display: none">
+                            <div id="box4_message_box"></div>
+                            <span
+                                class="prev_reg_box"
+                                onclick="next_reg_box(4, -1)"
+                            >
+                                <-</span
+                            >
+                            <span
+                                id="register_btn"
+                                class="next_reg_box"
+                                onclick="register()"
+                            >
+                                reggister</span
+                            >
+                        </div>
+                        <div id="last_one" class="p_div">
+                            have an acount
+                            <span id="to_login" onclick="show_form(0)">
+                                login
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </section>
+            <section id="info-holder">
+                <div id="info-card-container">
+                    <div class="infocards">
+                        <div class="info-text">
+                            <h1>welcome</h1>
+                            <p>
+                                flhgaohgfgairhhfgihaelfhgoarngaihoahgaoihgoeiaghoig
+                                iogh aourgh oahga òù agkabg
+                                òiugafbkjgorhgloufhalgosuvkbg ihgaàlihbgaeihgaoi
+                            </p>
+                        </div>
+
+                        <img src="/page/image/png/tanji.png" />
+                    </div>
+                    <div class="infocards">
+                        <img
+                            src="/page/image/png/060c1091-f4cf-4560-ac9f-ac0ffb5d5df2.jpg"
+                        />
+                        <div class="info-text">
+                            <h1>how are you</h1>
+                            <p>
+                                flhgaohgfgairhhfgihaelfhgoarngaihoahgaoihgoeiaghoig
+                                iogh aourgh oahga òù agkabg
+                                òiugafbkjgorhgloufhalgosuvkbg ihgaàlihbgaeihgaoi
+                            </p>
+                        </div>
+                    </div>
+                    <div class="infocards">
+                        <div class="info-text">
+                            <h1>mwaramutse</h1>
+                            <p>
+                                flhgaohgfgairhhfgihaelfhgoarngaihoahgaoihgoeiaghoig
+                                iogh aourgh oahga òù agkabg
+                                òiugafbkjgorhgloufhalgosuvkbg ihgaàlihbgaeihgaoi
+                            </p>
+                        </div>
+                        <img src="/page/image/png/OIHFMT0.jpg" />
+                    </div>
+                    <div class="infocards">
+                        <img
+                            src="/page/image/jake-charles-O9Whoh12czM-unsplash.jpg"
+                        />
+                        <div class="info-text">
+                            <h1>yezu akuzwe</h1>
+                            <p>
+                                flhgaohgfgairhhfgihaelfhgoarngaihoahgaoihgoeiaghoig
+                                iogh aourgh oahga òù agkabg
+                                òiugafbkjgorhgloufhalgosuvkbg ihgaàlihbgaeihgaoi
+                            </p>
+                        </div>
+                    </div>
+                    <div class="infocards">
+                        <div class="info-text">
+                            <h1>kiri gute my people</h1>
+                            <p>
+                                flhgaohgfgairhhfgihaelfhgoarngaihoahgaoihgoeiaghoig
+                                iogh aourgh oahga òù agkabg
+                                òiugafbkjgorhgloufhalgosuvkbg ihgaàlihbgaeihgaoi
+                            </p>
+                        </div>
+                        <img src="/page/image/p_69fe65e57e.jpg" />
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer></footer>
+        <script src="/page/js/deliver.js"></script>
+    </body>
+</html>

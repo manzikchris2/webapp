@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            http-equiv="Cache-Control"
+            content="no-cache, no-store, must-revalidate"
+        />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="/page/css/home.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+       
+    </head>
+    <body>
+        <header>
+            <nav id="navhome" class="navbar">
+                <span id="menu" class="fas fa-bars"></span>
+                <a id="main-log" href="http://localhost/home"
+                    ><img src="/page/image//png/logo.png"
+                /></a>
+                <input id="search-input" type="text" placeholder="SEARCH" />
+                <div id="search">
+                    <button id="search-btn" style="display: none">X</button>
+                    <div id="search-show-content" style="display: none"></div>
+                </div>
+                <div id="profile-cart">
+                    <span id="profile-btn" onclick="sidebar(1)"
+                        ><i class="fas fa-user"></i
+                    ></span>
+                    <span id="cart-btm" onclick="sidebar(0)"
+                        ><i class="fas fa-shopping-cart"></i
+                    ></span>
+                </div>
+            </nav>
+        </header>
+
+        <main id="main_view_all" class="main_view">
+            <aside id="side_menu" class="side-menu">
+                <section id="side_menu_content">
+                    <div id="side_btns" class="cat_container">
+                        <button id="home_btn"> home </button>
+                         <button id="cat_btn"> categories </button>
+                          <button id="pat_btn"> restorants </button>
+                    </div>
+                    <div id="cat_extra_box"></div>
+                </section>
+            </aside>
+            
+            <section class="main-content">
+                <section id="product-show"></section>
+                <section id="main-show"></section>
+            </section>
+            <aside id="left-slide">
+                <button id="close-side">X</button>
+                <section id="left-content"></section>
+            </aside>
+        </main>
+
+        <script src="page/js/home.js"></script>
+    </body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PARTNER</title>
+    <link rel="stylesheet" href="/page/css/partner.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="body_img">
+
+ <header>
+    <nav class="navbar">
+        <a id="main-log" href="/welcome"><img src="/page/image/png/logo.png"></a>
+        <div id="nav-buttons">
+            <button id="register-button">register</button>
+            <button id="login-button">login</button>
+        </div>
+    </nav>
+ </header>
+ <section class="main_view">
+        <main class="main-content" class="container">
+            <section id="partener_promo" class="container">
+                <p>text about how to it is benfictial for you tobe our parterner
+                </p>
+                <button id="partner-confirm" type="button">DO YOU WANT TO BE OUR PARTNER  </button>
+                 
+            </section>
+               <section id="partner-registation" class="container" style="display: none">
+                    <img src="/page/image/png/traffi.png">
+                    <form id="partner-registration-form" class="p-form">
+                        <div id="box1" class="container">
+                             <label for="p-r-name">BUSINESS NAME</label>
+                             <input id="p-r-name" type="text">
+                             <i class="fas fa-user "></i>
+                             <p id="p-r-name-err" class="err hidden"> please enter a business name</p>
+                             <label for="p-email">EMAIL</label>
+                             <input id="p-email" type="email">
+                             <i class="fas fa-envelope"></i>
+                             <p id="p-email-err" class="err hidden">enter a valid email</p>
+                             <label for="tel-container">BUSINESS TELPHONE</label>
+                             <div id="tel-container" class="container">
+                                <select id="prefix" placeholder="">
+                                    <option class="prefix-option" value="+39">IT</option>
+                                    <option class="prefix-option" value="+250">RWA</option>
+                                </select>
+                                <input id="p-tel" type="tel">
+                             </div>
+                             <p id="p-tel-err" class="err hidden"></p>
+                             <div class="span-container">
+                                <span class="form_next_btn" onclick="swithb(1)">NEXT</span>
+                            </div>
+                        </div>
+                        <div id="box3" class="container hidden">
+                             <label for="p-pass">PASSWORD</label>
+                             <input id="p-pass" type="passwor">
+                             <i class="fas fa-lock"></i>
+                             <p id="p-pass-err" class="err hidden"></p>
+                             <label for="p-confirm-pass">CONFIRM PASSWORD</label>
+                             <input id="p-confirm-pass" type="password">
+                             <i class="fas fa-lock"></i>
+                             <p id="p-confirm-pass-err" class="err hidden">must match password</p>
+                            <div class="span-container">
+                                <span class="form_back_btn" onclick="switha(3)">BACK</span>
+                                <span class="form_next_btn" onclick="swithb(3)">NEXT</span> 
+                            </div>      
+                        </div>
+                       <div id="box2" class="container hidden">
+                        <label for="p-name"> NAME</label>
+                        <input id="p-name" type="text">
+                        <i class="fas fa-user"></i>
+                        <p id="p-name-err" class="err hidden">please enter a name</p>
+                        <label for="p-surname">SURNAME</label>
+                        <input id="p-surname" type="text">
+                        <i class="fas fa-user"></i>
+                        <p id="p-surname-err" class="err hidden">please enter a surname</p>
+                        <label for="p-address">ADDRESS</label>
+                        <input id="p-address" type="text">
+                        <i class="fas fa-building"></i>
+                        <p id="p-address-err" class="err hidden">please enter a valid address</p>
+                        <div class="span-container">
+                            <span class="form_back_btn" onclick="switha(2)">BACK</span>
+                            <span class="form_next_btn" onclick="swithb(2)">NEXT</span>
+                        </div>
+                       </div>
+                        <div id="box4"  class="container hidden"> 
+                            <button type="submit" id="partner_registration_submit">REGISTER</button>
+                        </div>
+                      
+                        
+                        
+                    </form>
+                </section>
+                <section id="partner_login" class="container hidden">
+                    <div id="pat-image" class="container">
+                        <img src="/page/image/png/logo-partner.png">
+                    </div>
+                    <form id="partnet-login" class="container p-form">
+                        <label for="p-user">EMAIL</label>
+                        <input type="text" id="p-user" required>
+                        <i class="fas fa-user p-log-i"></i>
+                        <label for="p-password">PASSWORD</label>
+                        <input type="password" id="p-password" required>
+                        <i class="fas fa-lock p-log-i"></i>
+                        <span id="show-pass" class="fas fa-eye" onclick="showp('p-password')"></span>
+                        <p id="log-err" class="err hidden"></p>
+                        <button id="p-login-btn">Login</button>
+                    </form>
+                </section>
+        </main>
+    </section>
+   
+
+       
+
+
+    <script src="page/js/partner.js"></script>
+</body>
+</html>

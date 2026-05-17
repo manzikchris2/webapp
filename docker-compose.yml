@@ -1,0 +1,48 @@
+
+
+services:
+  www:
+    image: php:apache
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www/html
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html
+    command: >
+      bash -c "docker-php-ext-install mysqli pdo pdo_mysql &&
+               a2enmod rewrite headers &&
+               apache2-foreground"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: manzi
+      MYSQL_DATABASE: db
+      MYSQL_USER: manzi
+      MYSQL_PASSWORD: manzi
+    volumes:
+      - "./db:/docker-entrypoint-initdb.d"
+      - "mysql_data:/var/lib/mysql"  
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - "8001:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      UPLOAD_LIMIT: 100M
+  
+volumes:
+  mysql_data:  
+ 
