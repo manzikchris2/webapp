@@ -163,7 +163,9 @@ class Order{
             $stmt = $this->conn->prepare("SELECT ID FROM Partners WHERE Bname = :bname");
             $stmt->execute(["bname"=>$bname]);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $check = $this->check($_SESSION['customer_id'],$row['ID']);
+               $check = $this->check($_SESSION['customer_id'],$row['ID']);  
+            
+           
             if(!$check){
                  $stmt2 =$this->conn->prepare("INSERT INTO Orders (customerID,PartnersID) VALUES (:customer,:partner_id)");
                  $stmt2->execute(["customer"=>$_SESSION['customer_id'],"partner_id"=>$row['ID']]);

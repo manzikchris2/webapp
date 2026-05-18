@@ -18,7 +18,7 @@ class Product
     public function get_product_by_category(string $id)
     {
         $data = [];
-        $stmt = $this->conn->prepare("SELECT p.ID, p.Name,p.Price,p.image,pp.Bname FROM Products as p JOIN Categories as c ON p.CategoryID = c.ID join Partners as pp on pp.ID = p.PartnersID WHERE c.ID = :id and p.stutus = 1");
+        $stmt = $this->conn->prepare("SELECT p.ID, p.Name,p.Price,p.image,pp.Bname,c.CategoryName as cname,c.Description as desci FROM Products as p JOIN Categories as c ON p.CategoryID = c.ID join Partners as pp on pp.ID = p.PartnersID WHERE c.ID = :id and p.stutus = 1");
         $stmt->execute(['id' => $id]);
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $data[] = $row;
@@ -32,14 +32,18 @@ class Product
             $prods .= '<button onclick=add_to_cart("'.htmlspecialchars(urlencode($value['Bname'])).'","'.$value['ID'].'")><i class="fas fa-cart-plus "></i></button>
                                      </div>';
         }
-         $html = '<section class="product_cat_box">'.$prods.'</section>';
+         $html = '<section class="product_cat_box"><div class="search_index">
+                            <h>'.htmlspecialchars($value['cname']).'</h>
+                            <p>'.htmlspecialchars($value['desci']).'</p>
+                          </div>'.$prods.'</section>';
          
         return json_encode(['success' => true, 'products' => $html]);
     }
     public function get_product_by_partner(string $partner_id)
     {
         $data = [];
-        $stmt = $this->conn->prepare("SELECT p.ID, p.Name,p.Price,p.image,p.stutus,p.categoryID FROM Products as p WHERE p.PartnersID = :partner_id ");
+        $stmt = $this->conn->prepare("SELECT p.ID, p.Name,p.Price,p.image,p.stutus,p.categoryID,pp.Bname FROM Products as p 
+                                      join Partners as pp on p.PartnersID=pp.ID WHERE p.PartnersID = :partner_id ");
         $stmt->execute(['partner_id' => $partner_id]);
 
         while ($row = $stmt->fetch(pdo::FETCH_ASSOC)) {
@@ -50,10 +54,13 @@ class Product
         foreach($data as $key => $value){
             $prods .= ' <div class="product-card" style="background-image:url('.'/page/image/'.htmlspecialchars($value['image']).'">
                          <h3>'.htmlspecialchars($value['Name']).'</h3> <p>2€</p> ';
-            $prods .= '<button onclick="add_to_cart('.htmlspecialchars(urlencode($value['Name'])).')"><i class="fas fa-cart-plus "></i></button>
+            $prods .= '<button onclick="add_to_cart(\''.htmlspecialchars(urlencode($value['Bname'])).'\',\''.htmlspecialchars(urlencode($value['ID'])).'\')"><i class="fas fa-cart-plus "></i></button>
                                      </div>';
         }
-         $html = '<section class="product_cat_box">'.$prods.'</section>';
+         $html = '<section class="product_cat_box"><div class="search_index">
+                            <h>'.htmlspecialchars($value['Bname']).'</h>
+                            <p>this is what we talking about lokking smooth as eveer and the best u is livweeeee</p>
+                          </div>'.$prods.'</section>';
        
 
         return json_encode(['success' => true, 'products' => $html]);

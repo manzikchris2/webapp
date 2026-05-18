@@ -130,30 +130,29 @@ function getcookies(name) {
 }
 
 function close_side(action) {
-    const main = document.querySelector('.main-content');
-    const body = document.querySelector('body');
+    const main = document.querySelector(".main-content");
+    const body = document.querySelector("body");
     const side = document.getElementById("left-slide");
     const header = document.querySelector("header");
     side.style.animation = "none";
     void side.offsetHeight;
     if (action) {
-        main.style.pointerEvents="all";
-        body.style.overflow="scroll";
+        main.style.pointerEvents = "all";
+        body.style.overflow = "scroll";
         side.style.animation = "slide-left 1s linear 0s reverse";
         side.style.zIndex = "0";
         setTimeout(() => {
             side.style.display = "none";
             header.style.zIndex = "1";
         }, 1000);
-       
     } else {
-        window.scrollTo({top:0,behavior: 'smooth'});
+        window.scrollTo({ top: 0, behavior: "smooth" });
         side.style.animation = "slide-left 1s linear 0s forwards";
         side.style.display = "flex";
         side.style.zIndex = "2000";
         header.style.zIndex = "0";
-        main.style.pointerEvents="none"
-        body.style.overflow="hidden";
+        main.style.pointerEvents = "none";
+        body.style.overflow = "hidden";
     }
 }
 
@@ -313,10 +312,10 @@ function management(action, frombtn) {
         current = next;
     }, 5900);
 }
+ interval = setInterval(() => {
+                    management(1);
+                }, 20000);
 
-interval = setInterval(() => {
-    management(1);
-}, 20000);
 async function box_management() {
     const box = document.getElementById("product-show");
     try {
@@ -371,6 +370,7 @@ async function login(demand, user, pass, err) {
             loader("log-container");
             setTimeout(() => {
                 box.innerHTML = data.page;
+               
             }, 1000);
         } else {
             err.classList.remove("hidden");
@@ -942,6 +942,7 @@ document.addEventListener("click", function (e) {
         data = {};
         const inputs = document.querySelectorAll("#register-f input");
         console.log("ins:: " + inputs.length);
+        const err  = document.getElementById('c-f-main_err')
         inputs.forEach((input) => {
             if (
                 input.classList.contains("invalid") ||
@@ -983,22 +984,21 @@ document.addEventListener("click", function (e) {
         document.cookie = "origin = customer";
         window.location.href = "/retrive";
     }
-    if(e.target.id === 'cat_btn'){
-        const box = document.getElementById('cat_extra_box');
-        const cats = document.getElementById('cats');
-        const dogs = document.getElementById('pats');
-        box.style.display = 'block'
-        cats.style.display='flex'
-        dogs.style.display='none'
-
+    if (e.target.id === "cat_btn") {
+        const box = document.getElementById("cat_extra_box");
+        const cats = document.getElementById("cats");
+        const dogs = document.getElementById("pats");
+        box.style.display = "block";
+        cats.style.display = "flex";
+        dogs.style.display = "none";
     }
-    if(e.target.id === 'pat_btn'){
-        const box = document.getElementById('cat_extra_box');
-        const cats = document.getElementById('cats');
-        const dogs = document.getElementById('pats');
-        box.style.display = 'block'
-        cats.style.display='none'
-        dogs.style.display='flex'
+    if (e.target.id === "pat_btn") {
+        const box = document.getElementById("cat_extra_box");
+        const cats = document.getElementById("cats");
+        const dogs = document.getElementById("pats");
+        box.style.display = "block";
+        cats.style.display = "none";
+        dogs.style.display = "flex";
     }
 
     /* if(remember){
@@ -1128,19 +1128,19 @@ document.addEventListener("input", function (e) {
     }
     if (e.target.classList.contains("otp_inp")) {
         const id = e.target.id;
-            const current = parseInt(id.slice(-1));
+        const current = parseInt(id.slice(-1));
         if (e.target.value.length == 1) {
             const next = current + 1;
             if (next <= 6) {
                 const next_inp = document.getElementById("otp_inp" + next);
                 next_inp.focus();
             }
-        }else{
-            const next = current -1;
-            if(next >= 1){
-                 const next_inp = document.getElementById("otp_inp" + next);
-                 next_inp.focus();
-            } 
+        } else {
+            const next = current - 1;
+            if (next >= 1) {
+                const next_inp = document.getElementById("otp_inp" + next);
+                next_inp.focus();
+            }
         }
     }
 });

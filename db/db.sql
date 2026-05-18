@@ -159,6 +159,7 @@ CREATE TABLE `Delivery_users` (
 --
 
 CREATE TABLE `Orderdetails` (
+  
   `ID` int NOT NULL,
   `orderID` int DEFAULT NULL,
   `productID` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,

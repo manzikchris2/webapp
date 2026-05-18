@@ -160,7 +160,7 @@ class Register
             $res = $stmt->execute($params);
             if ($res) {
                 $this->id = $this->conn->lastinsertid();
-                $stmt1 = $this->conn->prepare("INSERT INTO Users(Email,pass,Tel,customerID) VALUES(:email,:pass,:tel,:c_id)");
+                $stmt1 = $this->conn->prepare("INSERT INTO Users(Email,pass,Tel,user_id,attribute) VALUES(:email,:pass,:tel,:c_id,'c')");
                 $hash = password_hash($pass, PASSWORD_DEFAULT);
                 $params1 = ['email' => $email, 'pass' => $hash, 'tel' => $tel, 'c_id' => $this->id];
                 $stmt1->execute($params1);
