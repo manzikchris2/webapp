@@ -1,4 +1,5 @@
 <?php
+require 'Categories.php';
 class Product
 {
     private PDO $conn;
@@ -64,6 +65,78 @@ class Product
        
 
         return json_encode(['success' => true, 'products' => $html]);
+    }
+    public function get_by_partner(){
+        $return = [];
+        $data = new Categories(new Database);
+
+
+        $cat = $data->get_all_categories();
+        $stmt = $this->conn->prepare("SELECT p.ID, p.Name,p.Price,p.image,p.stutus,p.categoryID,pp.Bname FROM Products as p 
+                                      join Partners as pp on p.PartnersID=pp.ID WHERE p.PartnersID = :partner_id ");
+        $stmt->execute(['partner_id' => $_SESSION['PartnersID']]);
+
+
+        $content="<table>
+                        <thead>
+                        <tr>
+                         <th> Name</th>
+                         <th> status</th>
+                         <th>category</th>
+                         <th> image</th>
+                         <th> price</th>
+                         <th>action</th>
+                         </tr>
+                         </thead>
+                         <tbody>";
+
+        while ($row = $stmt->fetch(pdo::FETCH_ASSOC)) {
+            $return[] = $row;
+            $content .= '<tr id="'.htmlspecialchars($row['ID']).'">
+                          <td> <input type="text" class="product_in" value="'.htmlspecialchars($row['Name']).'"> </td>
+                          <td>
+                             <select class="status product_in" >';
+            if ($row['stutus'] === 1) {
+                $content .= ' <option value="1" selected>ACTIVE</option>
+                              <option value="0">DISCONTINUED</option>
+                                          ';
+            }else{
+                $content .= '<option value="1">ACTIVE</option>
+                             <option value="0" selected>DISCONTINUED</option>';
+            } 
+            $content .= '</select>
+                             </td>
+                            <td>
+                             <select class="category product_in">
+                              <option value="" disabled selected>category</option>
+                             ';
+            foreach($cat as $id=>$name){
+                if ($id === $row['categoryID']) {
+                    $content .= '<option value="'.htmlspecialchars($id).'" selected>'.htmlspecialchars($name).'</option>';
+                } else {
+                    $content .= '<option value="'.htmlspecialchars($id).'">'.htmlspecialchars($name).'</option>';
+                }
+            }
+               $content .= '</select</td>
+                        <td> <img src=/page/image/'.htmlspecialchars($row['image']).' id="'.htmlspecialchars($row['ID']).'" alt="none"> 
+                                 <input type="file" class="product_in" id="'.htmlspecialchars($row['ID']).'" style="display:none">
+                        </td>
+                          <td> <input type="number" class="product_in" <input type="number" class="product_in"  min="0"  value='.htmlspecialchars($row['Price']).'> </td>
+                          <td> 
+                              <button onclick="update_prod(\''.htmlspecialchars($row['ID']).'\')">UPDATE</button> 
+
+                          </td></tr>
+                          ';
+        }
+        $content .= ' 
+                      </tbody>
+                      </table>';
+        return json_encode(['success'=>true,'content'=>$content,'row'=>$return]);
+        
+        
+
+       
+
     }
     public function update(array $prod)
     {

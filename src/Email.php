@@ -30,20 +30,21 @@ class Email
         $this->mail->addAddress($this->reciver);
         $this->mail->isHTML(true);
     }
-    private function genarateSecureOtp(int $numbers){
+    private function genarateSecureOtp(int $numbers)
+    {
         $otp = '';
-        for($i=0; $i < $numbers; $i++){
-            $otp .= random_int(0,9);
+        for ($i = 0; $i < $numbers; $i++) {
+            $otp .= random_int(0, 9);
         }
         return $otp;
-
     }
-    public function sendotp(PDO $db, string $attr){
+    public function sendotp(PDO $db, string $attr)
+    {
         $this->conn = $db;
-        try{
+        try {
             $numericOTP = $this->genarateSecureOtp(6);
             $this->configureSMTP();
-            $this->mail->Subject='OTP CONFIRMATION';
+            $this->mail->Subject = 'OTP CONFIRMATION';
             $this->mail->Body = '<html>
         <body style="font-family: Arial, Helvetica, sans-serif;">
             <div style="max-width: 500px; margin: 0 auto; padding: 20px; text-align: center; border: 1px solid #ddd; border-radius: 10px;">
@@ -62,60 +63,59 @@ class Email
 
 
 
-        $this->mail->AltBody = "OTP CONFIRMATION\n\n";
-        $this->mail->AltBody .= "Hello,\n\n";
-        $this->mail->AltBody .= "Please use the following OTP to complete your login:\n\n";
-        $this->mail->AltBody .= "OTP Code: {$numericOTP}\n\n";
-        $this->mail->AltBody .= "This OTP will expire in 1 minute.\n";
-        $this->mail->AltBody .= "For security reasons, do not share this OTP with anyone.\n\n";
-        $this->mail->AltBody .= "This is an automated message, please do not reply.\n";
+            $this->mail->AltBody = "OTP CONFIRMATION\n\n";
+            $this->mail->AltBody .= "Hello,\n\n";
+            $this->mail->AltBody .= "Please use the following OTP to complete your login:\n\n";
+            $this->mail->AltBody .= "OTP Code: {$numericOTP}\n\n";
+            $this->mail->AltBody .= "This OTP will expire in 1 minute.\n";
+            $this->mail->AltBody .= "For security reasons, do not share this OTP with anyone.\n\n";
+            $this->mail->AltBody .= "This is an automated message, please do not reply.\n";
 
 
 
 
             $this->conn->beginTransaction();
-            $stmt= $this->conn->prepare('UPDATE Users SET otp = :otp,ot_time = :timenow  WHERE Email = :email and attribute=:attr');
-            $stmt->execute([':otp'=>$numericOTP,':email'=>$this->reciver,':timenow'=>time(),'attr'=>$attr]);
+            $stmt = $this->conn->prepare('UPDATE Users SET otp = :otp,ot_time = :timenow  WHERE Email = :email and attribute=:attr');
+            $stmt->execute([':otp' => $numericOTP, ':email' => $this->reciver, ':timenow' => time(), 'attr' => $attr]);
             $this->conn->commit();
-             if(!$this->mail->send()){
-            throw new Exception("Email sending failed: " . $this->mail->ErrorInfo);
-        }
+            if (!$this->mail->send()) {
+                throw new Exception("Email sending failed: " . $this->mail->ErrorInfo);
+            }
             return true;
-
-        }
-        catch(Exception $th){
+        } catch (Exception $th) {
             $_SESSION['Email_error'] = $this->mail->ErrorInfo;
-            $_SESSION['PDO_error'] = ['message'=>$th->getMessage(),
-                                               'line'=>$th->getLine(),
-                                               'file'=>$th->getFile()];
+            $_SESSION['PDO_error'] = [
+                'message' => $th->getMessage(),
+                'line' => $th->getLine(),
+                'file' => $th->getFile()
+            ];
             return false;
         }
-
     }
-    public function sendaccept(string $html){
-        try{ 
-        $this->configureSMTP();
-        $this->mail->Subject= 'order delivery';
-        $this->mail->Body = '<html>
+    public function sendaccept(string $html)
+    {
+        try {
+            $this->configureSMTP();
+            $this->mail->Subject = 'order delivery';
+            $this->mail->Body = '<html>
                              <body style="font-family: Arial, Helvetica, sans-serif;">
             <div style="max-width: 500px; margin: 0 auto; padding: 20px; text-align: center; border: 1px solid #ddd; border-radius: 10px;">
                 <h1 style="color: rgb(114,214,242);">ORDER DELIVERY</h1>
                 <p style="font-size: 16px; color: #666;">arider has accepted your order</p>
                 <div style="background-color: black; padding: 15px; border-radius: 5px; margin: 20px 0;">
-                    ' .$html. '
+                    ' . $html . '
                 </div>
                 <p style="font-size: 12px; color: #999;">This is an automated message, please do not reply.</p>
             </div>
         </body>
                              </html>';
-         $this->mail->send();
-    return true;
-    }
-    catch(Exception $th){
-        $_SESSION['Email_error'] = $this->mail->ErrorInfo;
-         $_SESSION['Email_issue'] = [$this->reciver,$th->getFile(),$th->getMessage(),$th->getLine()];
-        return false;
-    }
+            $this->mail->send();
+            return true;
+        } catch (Exception $th) {
+            $_SESSION['Email_error'] = $this->mail->ErrorInfo;
+            $_SESSION['Email_issue'] = [$this->reciver, $th->getFile(), $th->getMessage(), $th->getLine()];
+            return false;
+        }
     }
     public function sendreset()
     {
@@ -137,6 +137,50 @@ class Email
             return 'sent';
         } catch (Exception $e) {
             return $_SESSION['Email_error'] = $this->mail->ErrorInfo;
+        }
+    }
+    public function sendPaccept(string $html)
+    {
+        try {
+            $this->configureSMTP();
+            $this->mail->Subject = 'order delivery';
+            $this->mail->Body = '<html>
+                             <body style="font-family: Arial, Helvetica, sans-serif;">
+            <div style="max-width: 500px; margin: 0 auto; padding: 20px; text-align: center; border: 1px solid #ddd; border-radius: 10px;">
+                <h1 style="color: rgb(114,214,242); text-transform:uppercase">' . $html . ' HAS ACCPTED</h1>
+               ' . $html . '
+                <p style="font-size: 12px; color: #999;">This is an automated message, please do not reply.</p>
+            </div>
+        </body>
+                             </html>';
+            $this->mail->send();
+            return true;
+        } catch (Exception $th) {
+            $_SESSION['Email_error'] = $this->mail->ErrorInfo;
+            $_SESSION['Email_issue'] = [$this->reciver, $th->getFile(), $th->getMessage(), $th->getLine()];
+            return false;
+        }
+    }
+    public function sendPdone(string $html)
+    {
+        try {
+            $this->configureSMTP();
+            $this->mail->Subject = 'order delivery';
+            $this->mail->Body = '<html>
+                             <body style="font-family: Arial, Helvetica, sans-serif;">
+            <div style="max-width: 500px; margin: 0 auto; padding: 20px; text-align: center; border: 1px solid #ddd; border-radius: 10px;">
+                <h1 style="color: rgb(114,214,242); text-transform:uppercase">YOUR ORDER FROM ' . $html . ' IS READY </h1>
+               ' . $html . '
+                <p style="font-size: 12px; color: #999;">This is an automated message, please do not reply.</p>
+            </div>
+        </body>
+                             </html>';
+            $this->mail->send();
+            return true;
+        } catch (Exception $th) {
+            $_SESSION['Email_error'] = $this->mail->ErrorInfo;
+            $_SESSION['Email_issue'] = [$this->reciver, $th->getFile(), $th->getMessage(), $th->getLine()];
+            return false;
         }
     }
 }

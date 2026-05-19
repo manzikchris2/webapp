@@ -86,7 +86,7 @@ class Order{
               $div .= '<div class="cart">';
               $div .= '<span class="bin-btn" onclick="remove_cart(\''.htmlspecialchars($key['item_id']).'\',\''.htmlspecialchars(urlencode($key['name'])).'\')">
                          <i class="fas fa-trash-alt"></i>
-                         </span>`;';
+                         </span>';
                 $div .= '<h2>'.htmlspecialchars($key['name']).'</h2>';
                 $div .= '<div class="cart-img">';
                 foreach($key['items_im'] as $img){
@@ -212,6 +212,19 @@ class Order{
             $stmt = $this->conn->prepare('UPDATE  Orders set stutus = :stat where ID=:order');
             $stmt->execute(['stat'=>$status,'order'=>$order]);
             $this->conn->commit();
+            $stmt2 = $this->conn->prepare('SELECT u.Email,p.Bname FROM Orders as o 
+                                           JOIN  Users as u ON o.CustomerID=u.user_id 
+                                           JOIN Partners as p on p.ID = o.PartnersID
+                                           WHERE o.ID =:order LIMIT 1');
+            $stmt2->execute([':order'=>$order]);
+            $row = $stmt2->fetch(PDO::FETCH_ASSOC);
+            $mail = new Email($row['Email']);
+            if($status === 'ACCEPT'){
+                $mail->sendPaccept($row['Bname']);
+
+            }else if($status === 'READY'){
+                $mail->sendPdone($row['Bname']);
+            }
             return json_encode(['success'=>true]);
 
         }

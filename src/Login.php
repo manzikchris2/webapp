@@ -188,7 +188,7 @@ class Login
                                <label for="customer_fname">Nome</label>
                                <input id="customer_fname" type="text" class="profile_inputs" value="'.$row['nome'].'"/>
                                <label for="customer_lname">Business name</label>
-                               <input id="customer_lname" type="text" class="profile_inputs" value="'.$$row['cognome'].'" />
+                               <input id="customer_lname" type="text" class="profile_inputs" value="'.$row['cognome'].'" />
                                <label for="customer_email">Email</label>
                                 <input id="customer_email" type="email" class="profile_inputs" value="'.$row['Email'].'"/>
                                 <label for="customer_tel">Tel</label>
@@ -258,7 +258,7 @@ class Login
     private function check_partner(string $email, string $pass)
     {
         try {
-            $stmt = $this->conn->prepare("SELECT  email, Tel, pass,PartnersID from Partners_users WHERE email = :email");
+            $stmt = $this->conn->prepare("SELECT  p.image,pu.email, pu.Tel, pu.pass,pu.PartnersID from Partners_users as pu join Partners as p on pu.PartnersID=p.ID  WHERE email = :email");
             $stmt->execute(['email' => $email]);
             $row = $stmt->fetch(pdo::FETCH_ASSOC);
             if (!isset($row['email'])) {
@@ -287,7 +287,7 @@ class Login
                         'httponly' => false,
                         'samesite' => 'Lax'
                     ]);
-                    return json_encode(["sucess" => true, "page" => "partner_home"]);
+                    return json_encode(["sucess" => true, "page" => "partner_home",'img'=>$row['image']]);
                 } else {
                     return json_encode(["error" => "WRONG PASSWORD"]);
                 }

@@ -148,8 +148,50 @@ function route(string $method,string $path)
         $customer = new register(new Database);
         return $customer->update_user($data);
     });
+    $router->get('/partner/update_products',function(){
+       if( Checkpoint::check('partner') !== true){
+        return  Checkpoint::check('partner');
+       }
+        $prod = new Product(new Database());
+        return $prod->get_by_partner();
+      
 
-
+    });
+    $router->get('/partner/categories',function(){
+         $category = new Categories(new Database());
+         $cat = $category->get_all_categories();
+         $form = '<form class="container" id="add_product-form">
+                <div id="upload_container" class="container">
+                    <div id="drop_area">
+                           <div class="upload-text">Click to browse here </div>
+                           <div class="upload-hint">Supports JPG, PNG, GIF, WebP (Max 10MB)</div>
+                           <div class="upload-hint">Use 1:1 images for more clear vision</div>
+                           <input type="file" id="imageInput" accept="image/jpeg,image/png,image/gif,image/webp"> 
+                           <div id="img_display" >
+                               <h1 id ="pname">/<h1>
+                               <p id="p_price"></p>
+                           </div>
+                    </div>
+                    
+                </div>
+                
+                <label for="p-name"> name</label>
+                <input type="text" id="p-name">
+                <label for="p-category"> category</label>
+                <select id="p-category">
+                <option disabled selected></option>';
+            foreach($cat as $id => $name){
+                $form .= '<option value="'.htmlspecialchars($id).'">'.htmlspecialchars($name).'</option>';
+            }
+            $form .= '</select>
+                        <label for="p-price"> price</label>
+                        <input type="number" id="p-price"  min="0" >
+                        <button type="submit" id="add-product-button">add product</button>
+                        <p class="form_err"></p>
+                        </form>';
+         
+        return json_encode(['success'=>true,'content'=>$form]);
+    });
     $router->get('/categories', function () {
         $category = new Categories(new Database());
         $cat = $category->get_all_categories();
@@ -294,6 +336,7 @@ function route(string $method,string $path)
         $orders = new Order(new Database());
         return $orders->order_management($cutomer, "retrive");
     });
+
     $router->any("/logout/customer", function () {
         return Checkpoint::logout('c');
     });
@@ -387,6 +430,12 @@ function route(string $method,string $path)
         }
         $order = new Order(new Database());
         return $order->order_management([], 'active');
+    });
+    $router->get('/partner/get_profile',function(){
+        if(Checkpoint::check('partner') !== true){
+            return json_encode(['success'=>false,'message'=>'login']);
+        }
+        return json_encode(['success'=>true,'content'=>$_SESSION['PartnersID']]);
     });
     $router->get('/partner/profile', function () {
         if(Checkpoint::check('partner') !== true){

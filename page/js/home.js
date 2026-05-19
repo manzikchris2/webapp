@@ -249,17 +249,17 @@ function trans_form(a) {
         log_div.style.animation = "slide 1s linear 0s forwards";
         setTimeout(() => {
             reg_div.style.display = "flex";
-            reg_div.style.animation = "slide-left 3s linear 0s forwards";
+            reg_div.style.animation = "slide-left 1s linear 0s forwards";
             log_div.style.display = "none";
-        }, 1500);
+        }, 500);
     } else {
         reg_div.style.animation = "slide-right-v2 1s linear 0s forwards";
 
         setTimeout(() => {
             log_div.style.display = "flex";
-            log_div.style.animation = "slide-right 3s linear 0s forwards";
+            log_div.style.animation = "slide-right 1s linear 0s forwards";
             reg_div.style.display = "none";
-        }, 1000);
+        }, 500);
     }
 }
 function hide_log() {

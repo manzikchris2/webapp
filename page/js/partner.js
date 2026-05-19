@@ -1,3 +1,6 @@
+let image_path ;
+
+
 //functions
 function loader() {
     return "<div id='loader'></div>";
@@ -33,6 +36,7 @@ function swithb(id) {
         }, 100);
     }
 }
+
 function switha(id) {
     id = Number(id);
     box1 = document.getElementById("box" + id);
@@ -57,7 +61,27 @@ function handle_img() {
 }
 
 //async functions
-
+async function show_profile(){
+    try{
+        const response = await fetch('http://localhost:80/partner/get_profile')
+        if(!response.ok){
+            throw new Error('failed to get pic')
+        }
+        const resp = await response.json()
+        if(resp.success){ 
+        const img1 = document.getElementById('big_img') 
+        const img2 = document.getElementById('small_img') 
+        img1.src = '/page/image/partners/'+resp.content+'.jpg'
+        img2.src ='/page/image/partners/'+resp.content+'.jpg';
+    }else{
+        if(resp.head){
+            window.location.replace(resp.head)
+        }
+    }
+    }catch(Error){
+        console.log(Error)
+    }
+}
 async function register_p(r_data) {
     const data = JSON.stringify(r_data);
     response = await fetch("http://localhost:80/register/partner", {
@@ -116,6 +140,7 @@ async function login_p(data) {
             const box2 = document.getElementById("partnet-login");
             box1.style.animation = "slide-left 4s ease 0s forwards";
             box2.style.animation = "slide-right 4s ease 0s forwards";
+            image_path='/page/image/partners/'+log_data.image
             setTimeout(() => {
                 document.location.replace(log_data.page);
             }, 4000);
@@ -208,7 +233,7 @@ async function add_prod() {
             box.innerHTML = `<h2>Product inserted succesfully</h2>`;
             setTimeout(() => {
                 btn.click();
-            });
+            },2000);
         }
     } catch (Error) {
         console.log("error in upload: " + Error);
@@ -218,73 +243,23 @@ async function add_prod() {
 async function get_prod() {
     try {
         const section = document.getElementById("orders-mangment");
-        const response = await fetch("http://localhost/products/partner");
-        const response2 = await fetch("http://localhost/categories");
-        if (!response.ok || !response2.ok) {
-            throw new Error("issue in get" + " " + route);
+        const response = await fetch("http://localhost/partner/update_products");
+        
+        if (!response.ok) {
+            throw new Error("issue in get update");
         }
         const data = await response.json();
-        const categories = await response2.json();
-        section.innerHTML = "";
-        let prods = "";
-        prods = `<table>
-                        <thead>
-                        <tr>
-                         <th> Name</th>
-                         <th> status</th>
-                         <th>category</th>
-                         <th> image</th>
-                         <th> price</th>
-                         <th>action</th>
-                         </tr>
-                         </thead>
-                         <tbody>`;
-
-        data.products.forEach((prod) => {
-            prods += `<tr id="${prod.ID}">
-                          <td> <input type="text" class="product_in" value="${prod.Name}"> </td>
-                          <td>
-                             <select class="status" >`;
-            if (prod.stutus) {
-                prods += `
-                                          <option value="1" selected>ACTIVE</option>
-                                          <option value="0">DISCONTINUED</option>
-                                          `;
-            } else {
-                prods += `
-                                          <option value="1">ACTIVE</option>
-                                          <option value="0" selected>DISCONTINUED</option>`;
+      
+        if(data.success){
+            if(data.content){
+                section.innerHTML=data.content
             }
-            prods += `
-                             </select>
-                          </td>
-                          <td>
-                          <select class="category">
-                          <option value="" disabled selected>category</option>
-                             `;
-            for (let [key, cat] of Object.entries(categories.cat)) {
-                if (cat.ID === prod.categoryID) {
-                    prods += `<option value="${cat.ID}" selected>${cat.CategoryName}</option>`;
-                } else {
-                    prods += `<option value="${cat.ID}">${cat.CategoryName}</option>`;
-                }
+        }else{
+            if(data.head){
+                window.location.replace(data.head);
             }
-
-            prods += `</select</td>
-                        <td> <img src=/page/image/${prod.image} alt="none"> </td>
-                          <td> <input type="number" class="product_in" value=${prod.Price}> </td>
-                          <td> 
-                              <button onclick="update_prod('${prod.ID}')">UPDATE</button> 
-
-                          </td>
-                          `;
-        });
-
-        prods += ` </tr>
-                      </tbody>
-                      </table>`;
-
-        section.innerHTML += prods;
+        }
+        
     } catch (Error) {
         console.log("err in post" + Error);
     }
@@ -505,7 +480,7 @@ document.addEventListener("change", function (e) {
             const reader = new FileReader();
             reader.onload = function (event) {
                 const preview = document.getElementById("img_display");
-                preview.src = event.target.result;
+                preview.style.backgroundImage = 'url("'+event.target.result+'")';
                 preview.style.display = "block";
             };
             reader.readAsDataURL(file);
@@ -591,14 +566,16 @@ document.addEventListener("input", function (e) {
         }
     }
 
-    if (e.target.classList.contains("product_in")) {
-        input.style.border = "2px solid #73d5eb";
-        input.style.backgroundColor = "white";
-        console.log("\n shouldwork");
+    if(e.target.id === 'p-name'){
+        const desti = document.getElementById('pname');
+        desti.innerHTML = e.target.value
+    }
+    if(e.target.id === 'p-price'){
+        const desti = document.getElementById('p_price');
+        desti.innerHTML = e.target.value+' €'
     }
 });
 // input by class for table
-document.addEventListener("DOMContentLoaded", function (e) {});
 // event listeners on summit forms
 
 document.addEventListener("submit", function (e) {
@@ -609,6 +586,7 @@ document.addEventListener("submit", function (e) {
 });
 
 document.addEventListener("DOMContentLoaded", function (e) {
+    show_profile()
     document.addEventListener("click", function (e) {
         if (e.target.classList.contains("product_in")) {
             document.querySelectorAll(".product_in").forEach((input) => {
@@ -675,37 +653,17 @@ body.addEventListener("click", async (ev) => {
     }
     if (ev.target.id === "add") {
         content.innerHTML = "";
-        const response = await fetch("http://localhost:80/categories");
+        const response = await fetch("http://localhost:80/partner/categories");
         const resp = await response.json();
-        form = "";
-        if (resp) {
-            form += `<form class="container" id="add_product-form">
-                <div id="upload_container" class="container">
-                    <div id="drop_area">
-                           <div class="upload-text">Click to browse here </div>
-                           <div class="upload-hint">Supports JPG, PNG, GIF, WebP (Max 10MB)</div>
-                           <div class="upload-hint">Use 1:1 images for more clear vision</div>
-                           <input type="file" id="imageInput" accept="image/jpeg,image/png,image/gif,image/webp"> 
-                           <img id="img_display" src="#" alt="preview">
-                    </div>
-                    
-                </div>
-                
-                <label for="p-name"> name</label>
-                <input type="text" id="p-name">
-                <label for="p-category"> category</label>
-                <select id="p-category">
-                <option disabled selected></option>`;
-            resp.cat.forEach((cat) => {
-                form += `<option value=${cat.ID}>${cat.CategoryName}</option>`;
-            });
-            form += `</select>
-                        <label for="p-price"> price</label>
-                        <input type="number" id="p-price">
-                        <button type="submit" id="add-product-button">add product</button>
-                        <p class="form_err"></p>
-                        </form>`;
-            content.innerHTML = form;
+        if (resp.success){
+            if(resp.content){
+                content.innerHTML = resp.content
+            }
+           
+        }else{
+            if(resp.head){
+                window.location.replace(resp.head);
+            }
         }
     }
     if (ev.target.id === "history") {
