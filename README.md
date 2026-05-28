@@ -1,8 +1,8 @@
 # webapp
 
-this is a locol run program to run it you new need to have docker installed on your pc(not that you don't)/n
+# this is a locol run program to run it you new need to have docker installed on your pc(not that you don't)/n
 steps
-1:download docker(if you already do 👍 )/n
+1:download docker(if you already do 👍 ) \n
 2:download this repo/n
 3:open your terminal amd move into the directory with the repo inside/n
 4: run the command "docker compose up -d"(make sure that nothing is connected to your 80 port)/n
