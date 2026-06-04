@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>about</title>
+        <style>
+            body {
+                display: grid;
+                grid-template-rows: 100px 1fr;
+                background-color: rgb(114, 213, 222);
+                color: white;
+            }
+            .b_home {
+                display: block;
+                text-decoration: none;
+                text-transform: uppercase;
+                color: black;
+                position: relative;
+                bottom: -5%;
+                left: 50%;
+                transition: all 1s ease-in;
+            }
+            .b_home:hover {
+                color: grey;
+                text-decoration: underline;
+            }
+            #main-t {
+                text-align: center;
+            }
+            .main {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                width: 98%;
+                gap: 10px;
+                background: black;
+                color: white;
+                padding: 0 10px;
+                padding-bottom: 15px;
+                border-radius: 10px;
+            }
+            .in_main {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                width: 100%;
+                gap: 10px;
+            }
+            .main a {
+                color: rgb(114, 213, 222);
+            }
+            .mian::-webkit-scrollbar {
+                display: none;
+            }
+            .big::-webkit-scrollbar {
+                display: none;
+            }
+            .in_mian::-webkit-scrollbar {
+                display: none;
+            }
+            .big {
+                display: flex;
+                height: fit-content;
+                flex-direction: column;
+                overflow-y: scroll;
+                height: 500px;
+                padding-top: 3%;
+                padding-bottom: 20%;
+                overflow-x: hidden;
+                gap: 10px;
+                border-radius: 10px;
+            }
+            @keyframes scroll-in {
+                80% {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .main p {
+                position: relative;
+                width: 700px;
+                font-size: 20px;
+                text-align: left;
+                z-index: 100;
+                transform: translateX(130%);
+                animation: slide-in linear;
+                opacity:0;
+                animation-timeline: view();
+            }
+            @keyframes slide-in {
+                45% {
+                    transform: translateX(0);
+                }
+                50% {
+                    transform: translateX(0);
+                    opacity:1;
+                }
+                
+            }
+            .main img {
+                scale: 0.1;
+                opacity: 0;
+                width: 450px;
+                height: 350px;
+                position: relative;
+                z-index: 20;
+                border-radius: 10px;
+                animation: fade_in linear;
+                animation-timeline: view();
+            }
+            @keyframes fade_in {
+                45% {
+                    scale: 1;
+                    opacity: 1;
+                }
+                48% {
+                    scale: 1;
+                    opacity: 1;
+                }
+            }
+            .main h1 {
+                transform: translateX(-130%);
+                opacity: 0;
+                animation: slide-in-left linear;
+                animation-timeline: view();
+            }
+            @keyframes slide-in-left {
+                85% {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(137%);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <h1 id="main-t">ABOUT OUR</h1>
+        <section class="big">
+            <div class="main">
+                <h1>ORGANISATION</h1>
+                <div class="in_main">
+                    <img
+                        src="/page/image/jake-charles-O9Whoh12czM-unsplash.jpg"
+                    />
+                    <p>
+                        DDelivery started as a small, one-van operation in the
+                        back alleys of Brooklyn, but within three years it had
+                        grown into the most unexpectedly reliable logistics
+                        network in the tri-state area. What set DDelivery apart
+                        wasn't speed or flashy tracking apps—though they had
+                        both—it was the bizarrely specific attention to detail.
+                        Every driver, for instance, carried a small pouch of
+                        spare buttons, because the founder once missed an
+                        important package delivery when a client's coat button
+                        popped off right as they were signing for a parcel. That
+                        same founder, a former jazz drummer named Elena Vasquez,
+                        insisted that all delivery vans be painted a shade she
+                        called "submarine yellow," and that every package
+                        weighing under two pounds be greeted with a handwritten
+                        "thumbs up" drawn on the tape. Customers began
+                        requesting the same drivers, tipping them in homemade
+                        jam and handwritten notes, and soon DDelivery had a
+                        waitlist for their services. They don't deliver
+                        everywhere, and they never will—Elena believes that
+                        growth for growth's sake ruins the rhythm—but if you
+                        live within their odd, amoeba-shaped delivery zone, you
+                        know that when the yellow van pulls up, whatever arrives
+                        will arrive with the quiet dignity of something that was
+                        cared for along the way.
+                    </p>
+                </div>
+            </div>
+            <div class="main">
+                <h1>Customer Service</h1>
+                <div class="in_main">
+                    <img src="/page/image/customer.jpg" />
+                    <p>
+                        DDelivery started as a small, one-van operation in the
+                        back alleys of Brooklyn, but within three years it had
+                        grown into the most unexpectedly reliable logistics
+                        network in the tri-state area. What set DDelivery apart
+                        wasn't speed or flashy tracking apps—though they had
+                        both—it was the bizarrely specific attention to detail.
+                        Every driver, for instance, carried a small pouch of
+                        spare buttons, because the founder once missed an
+                        important package delivery when a client's coat button
+                        popped off right as they were signing for a parcel. That
+                        same founder, a former jazz drummer named Elena Vasquez,
+                        insisted that all delivery vans be painted a shade she
+                        called "submarine yellow," and that every package
+                        weighing under two pounds be greeted with a handwritten
+                        "thumbs up" drawn on the tape. Customers began
+                        requesting the same drivers, tipping them in homemade
+                        jam and handwritten notes, and soon DDelivery had a
+                        waitlist for their services. They don't deliver
+                        everywhere, and they never will—Elena believes that
+                        growth for growth's sake ruins the rhythm—but if you
+                        live within their odd, amoeba-shaped delivery zone, you
+                        know that when the yellow van pulls up, whatever arrives
+                        will arrive with the quiet dignity of something that was
+                        cared for along the way.
+                    </p>
+                </div>
+            </div>
+            <div class="main">
+                <h1>Location</h1>
+                <div class="in_main">
+                    <img src="/page/image/loc.jpg" />
+                    <p style="text-align: center">
+                        Address: pizza cairolli 28 mmessina<br />
+                        Cap: 98011<br />
+                        Email:<a href="https://ddlovery@gmail.com"
+                            >ddlovery@gmail.com</a
+                        ><br />
+                        Tel:+393280669167<br />
+                    </p>
+                </div>
+            </div>
+            <div class="main">
+                <h1>Thanks</h1>
+                <div class="in_main">
+                    <img
+                        src="/page/image/jake-charles-O9Whoh12czM-unsplash.jpg"
+                    />
+                    <p>
+                        Thanks a bunch! Or should we say, thanks a delivery? At
+                        DDelivery, we believe every package deserves a little
+                        extra love—a handwritten thumbs-up, a driver who
+                        actually cares, and a van so yellow you can spot it from
+                        three blocks away. Thank you for choosing us, for
+                        trusting us, and for letting our little Brooklyn-born
+                        company grow into something special. You're the reason
+                        we keep the spare buttons in our pockets and the smiles
+                        on our faces. Until next time—stay wonderful, and we'll
+                        stay yellow
+                    </p>
+                </div>
+            </div>
+            <a class="b_home" href="/home">home</a>
+        </section>
+    </body>
+</html>
