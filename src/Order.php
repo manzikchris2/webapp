@@ -97,8 +97,11 @@ class Order{
                 $div .= '<p>'.htmlspecialchars($key['item_total']).'€</p>';
                 $div .= '<p>'.htmlspecialchars($key['item_c']).' articles</p>';
                 $div .= '</div>';
-                $div .= '<span class="go_cart_btn" onclick=go_to_cart("'.htmlspecialchars($key['item_id']).'","'.htmlspecialchars($key['name']).'",false)>Go Go Cart</span>';
+                $div .= '<span class="go_cart_btn" onclick=go_to_cart("'.htmlspecialchars($key['item_id']).'","'.urlencode(htmlspecialchars($key['name'])).'",false)>Go Go Cart</span>';
                 $div .= '</div>';
+         }
+         if(empty($div)){
+            $div = '<h1 style="position:absolute; top:47%; left:30%;"> cart is empty</h1>';
          }
        
         return json_encode(["success"=>true,"better"=> $div]);
@@ -161,7 +164,7 @@ class Order{
         try{
             $this->conn->beginTransaction();
             $stmt = $this->conn->prepare("SELECT ID FROM Partners WHERE Bname = :bname");
-            $stmt->execute(["bname"=>$bname]);
+            $stmt->execute(["bname"=>urldecode($bname)]);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
                $check = $this->check($_SESSION['customer_id'],$row['ID']);  
             
@@ -173,7 +176,7 @@ class Order{
                  $stmt3 = $this->conn->prepare("INSERT INTO Orderdetails(productID,orderID) VALUES(:prod,:order)");
                  $stmt3->execute(["prod"=>$product_id,"order"=>$order_id]);
                  $this->conn->commit();
-                 return json_encode(["succeful"=> true, "order"=>true,'ses'=>$_SESSION,'t'=>$bname]);
+                 return json_encode(["succeful"=> true, "order"=>true]);
              }
              else{
                 $o_det = $this->check_od($check['ID'],$product_id);

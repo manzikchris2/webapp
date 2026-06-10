@@ -151,7 +151,7 @@ class Search{
         $stmt = $this->conn->prepare('SELECT o.ID,oo.quantity,p.Name,p.image,o.stutus FROM `Orders` as o 
                                      JOIN Orderdetails as oo on o.ID = oo.orderID 
                                      JOIN Products as p on p.ID = oo.productID 
-                                     WHERE o.stutus = "READY" and o.PartnersID = :user');
+                                     WHERE (o.stutus = "READY" or o.stutus = "DONE")  and o.PartnersID = :user');
                                     $stmt->execute(['user'=>$_SESSION['PartnersID']]);
         while($row= $stmt->fetch(PDO::FETCH_ASSOC)){
                 if(!isset($content[$row['ID']])){

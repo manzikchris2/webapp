@@ -204,12 +204,12 @@ input {
    SIDE MENU
    ==================== */
 .side-menu {
-    display: none;
+        display: none;
     position: absolute;
-    left: -30px;
+    left: 15px;
     width: 15%;
     flex-direction: column;
-    background-color: rgb(114,214,242);
+    background-color: rgb(114, 214, 242);
     margin-top: 20px;
     transform-origin: top;
     top: 60px;
@@ -263,11 +263,12 @@ input {
  #cat_extra_box{
         display: none;
     position: absolute;
-    top: 0%;
+    top: 30%;
     left: 100%;
-    background-color: rgb(114, 214, 242);
+    background-color: black;
     width: 150px;
     border-radius: 10px;
+    color: rgb(114, 214, 242);
  }
 
 /* ====================
@@ -288,15 +289,15 @@ input {
 }
 
 .category-btn {
-    height: 50px;
+     height: 50px;
     width: 100%;
     border: none;
     background-color: transparent;
-    color: black;
+    color: rgb(114, 214, 242);
 }
 
 .category-btn:hover {
-    border-bottom: 5px solid black;
+    border-bottom: 5px solid rgb(114,214,242);
 }
 
 /* ====================
@@ -444,11 +445,16 @@ span:hover {
     flex-direction: column;
     width: 100%;
     height: 100%;
+    
 }
 
 .main_slide_box img {
     width: 100%;
     height: 750px;
+    image-rendering: high-quality;
+    image-rendering: smooth;
+    image-rendering: optimize-quality;
+    object-fit: cover;
 }
 
 .main_slide_box button {
@@ -769,7 +775,7 @@ span:hover {
 }
 
 .search_index {
-    width: 91%;
+    width: 100%;
     margin: 10px 19px 10px 20px;
     height: 300px;
     background-color: black;
@@ -847,11 +853,7 @@ span:hover {
     overflow-x: hidden;
 }
 
-#left-content i {
-    position: relative;
-    top: 50px;
-    left: 10px;
-}
+
 
 #left-content::-webkit-scrollbar {
     display: none;
@@ -871,6 +873,42 @@ span:hover {
     background-color: rgb(151, 219, 242);
     flex-direction: column;
     padding: 20px;
+}
+#good_bye{
+    position:absolute;
+    top:50%;
+    left:50%;
+}
+#change_pass{
+        display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    
+}
+#home_btn{
+    text-decoration: none;
+    width:100%;
+    padding: 15px;
+    text-align:center;
+    color:black;
+}
+#home_btn:hover{
+    border: 2px solid black;
+}
+#change_pass_span{
+    text-align:center;
+}
+#change_pass span{
+    padding:15px;
+    color:rgb(114, 214, 224);
+    background-color:black;
+    border-radius:15px;
+}
+#change_pass span:hover{
+    color:rgb(114, 214, 224);
+    background-color:darkgreen;
 }
 
 #profile_updtae {
@@ -935,12 +973,11 @@ span:hover {
 }
 
 #profile-cart i {
-    scale: 1.5;
+    scale: 2;
 }
 
 #profile-cart i:hover {
     color: black;
-    scale: 1.6;
 }
 
 .cart {
@@ -972,6 +1009,10 @@ span:hover {
     bottom: 15px;
     left: 315px;
     color: rgb(6, 149, 197);
+    top: 35px;
+    width: 23px;
+    padding: 4px;
+    border-radius: 5px;
 }
 
 .go_cart_btn {
@@ -1228,9 +1269,23 @@ footer:hover {
 /* ====================
    LANDING PAGE EXTRAS
    ==================== */
+
+   #home-container{
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    margin-top: 100px;
+    gap: 100px;
+   }
 .slidels-container {
     width: 100%;
-    height: 250px;
+    height: 100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    gap:20px;
     animation: slide-left 2s ease 0s 1 forwards;
 }
 
@@ -1240,6 +1295,7 @@ footer:hover {
     align-items: center;
     overflow: hidden;
     gap: 18px;
+   
 }
 
 .track {
@@ -1249,7 +1305,13 @@ footer:hover {
     gap: 18px;
     justify-content: center;
     align-items: center;
+    
+}
+.track.left{
     animation: slide-right-for-slide 40s linear infinite;
+}
+.track.right{
+    animation: slide-right-for-slide 40s linear reverse infinite;
 }
 
 .track :hover {
@@ -1284,7 +1346,8 @@ footer:hover {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    animation: slide-right 2s ease 0s 1 forwards;
+    height: 100vh;
+    /*animation:  2s ease 0s 1 forwards;*/
 }
 
 .describe {
@@ -1301,6 +1364,25 @@ footer:hover {
     align-items: center;
     flex-direction: column;
     gap: 40px;
+    transform:translateX(-100%);
+    opacity:0;
+    animation: slide-right-des linear;
+    animation-timeline:view();
+    animation-range:entery 0%;
+}
+@keyframes slide-right-des{
+    50%{
+        transform:translateX(0);
+        opacity:1;
+    }
+    60%{
+         transform:translateX(0);
+         opacity:1;
+    }
+    98%{
+         transform:translateX(100%);
+        opacity:0.1;
+    }
 }
 
 .describe:hover {

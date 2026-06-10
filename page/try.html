@@ -1,97 +1,170 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-        <style>
-            body {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                flex-direction: column;
-                height: 100vh;
-            }
-            #show_orders {
-                width: 100%;
-                height: 50%;
-                display:flex;
-                justify-content:center;
-                align-items:center;
-                flex-direction:column;
-            }
-            .current_order{
-                width: 90%;
-                height: fit-content;
-                padding: 10px;
-                display:flex;
-                justify-content:center;
-                align-items:center;
-                flex-direction:column;
-                gap: 15px;
-                border-radius: 10px;
-            }
-            .current_order_table{
-                background-color:black;
-                color: white;
-                border-radius: 10px;
-                width: 80%;
-            }
-            .current_order_table img{
-                width: 50px;
-                height: 50px;
-            }
-            .current_order_table  td{
-                padding: 10px;
-            }
-            #delivered_btn{
-                color: white;
-                background-color: black;
-                padding: 10px;
-                border-radius: 10px;
-                cursor: default;
-                transition: all .5s  ease-in 
-            }
-            #delivered_btn:hover{
-                color: rgb(3, 255, 3);
-                background-color: grey;
-            }
-        </style>
-    </head>
-    <body>
-        <section id="show_orders" style="display: flex">
-            <div
-                class="current_order"
-                style="background-image:url('/page/image/partners/p_69f8b4d4.jpg');"
-            >
-                <h1>Kwamapenzi</h1>
-                <table class="current_order_table">
-                    <tbody>
-                        <tr>
-                            <td><img src="/page/image/p_69f8c6.jpg" /></td>
-                            <td>tiramisu</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td><img src="/page/image/p_69fe60.jpg" /></td>
-                            <td>oreo milkshake</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td><img src="/page/image/p_69f205.jpg" /></td>
-                            <td>manzi</td>
-                            <td>1</td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td>from:via principe umberto 29</td>
-                            <td>to:via mima 12</td>
-                        </tr>
-                    </tfoot>
-                </table>
-                <span id="delivered_btn"> delivered </span>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll Animations Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            margin: 20px 0;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        /* Animation Classes */
+        .animate {
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fade-up {
+            transform: translateY(30px);
+        }
+        
+        .fade-left {
+            transform: translateX(-50px);
+        }
+        
+        .fade-right {
+            transform: translateX(50px);
+        }
+        
+        .zoom {
+            transform: scale(0.8);
+        }
+        
+        .animate.visible {
+            opacity: 1;
+            transform: translate(0) scale(1);
+        }
+        
+        /* Stagger children */
+        .stagger-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 250px;
+            text-align: center;
+            transition-delay: calc(var(--index) * 0.1s);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            text-align: center;
+        }
+        
+        button {
+            padding: 12px 24px;
+            font-size: 1rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="section">
+            <div class="animate fade-up">
+                <h1>Scroll Down</h1>
+                <p>Watch elements animate as they appear</p>
             </div>
-        </section>
-    </body>
+        </div>
+        
+        <div class="section">
+            <div class="animate fade-left">
+                <h2>Slide from Left</h2>
+                <p>Elements smoothly slide into view</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="animate fade-right">
+                <h2>Slide from Right</h2>
+                <p>Creating engaging user experiences</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="animate zoom">
+                <h2>Zoom Effect</h2>
+                <p>Elements scale up as they appear</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="animate fade-up">Staggered Animation</h2>
+            <div class="stagger-container">
+                <div class="card animate fade-up" style="--index: 0">Card 1</div>
+                <div class="card animate fade-up" style="--index: 1">Card 2</div>
+                <div class="card animate fade-up" style="--index: 2">Card 3</div>
+                <div class="card animate fade-up" style="--index: 3">Card 4</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        });
+        
+        // Observe all elements with .animate class
+        document.querySelectorAll('.animate').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
 </html>

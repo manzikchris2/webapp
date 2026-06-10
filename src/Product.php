@@ -195,7 +195,7 @@ class Product
                             </section> '; 
                             
             }
-            return json_encode(["success" => true, "products" => $sections, '$row' => $products]);
+            return json_encode(["success" => true, "products" => $sections]);
         } catch (Exception $th) {
             return json_encode(["success" => false, "data" => $products, "message" => $th->getMessage()]);
         }

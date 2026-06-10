@@ -196,7 +196,7 @@ function sidebar(a) {
 
 function loadProducts(cat, action, fromRestore = false) {
     const box = document.getElementById("main-show");
-    const menu = document.getElementById("menu");
+
 
     let req = {};
 
@@ -204,7 +204,6 @@ function loadProducts(cat, action, fromRestore = false) {
         req = { cat_id: cat };
         // Only add to history if NOT from restore
         if (!fromRestore) {
-            menu.click();
             console.log(
                 "Adding history for category:",
                 `/home/category/${cat}`,
@@ -220,7 +219,6 @@ function loadProducts(cat, action, fromRestore = false) {
         by_category(req);
     }
     if (action === "part") {
-        menu.click();
         req = { part_id: cat };
 
         if (!fromRestore) {
@@ -265,7 +263,7 @@ function trans_form(a) {
 function hide_log() {
     const box4 = document.querySelector("footer");
     const box = document.getElementById("log-container");
-    const box2 = document.getElementById("product-container");
+    const box2 = document.getElementById("home-container");
     box.style.animation = "none";
     box.offsetHeight;
     box.style.animation = "shrink 1s linear 0s 1 forwards";
@@ -328,7 +326,7 @@ async function box_management() {
         const content = resp.content;
 
         for (let i = 0; i < length; i++) {
-            // Show first box (index 0), hide others
+            
             const displayStyle = i === 0 ? "flex" : "none";
 
             box.innerHTML += `
@@ -381,6 +379,37 @@ async function login(demand, user, pass, err) {
         }
     } catch (Error) {
         console.error("Error fetching data:", Error);
+    }
+}
+async function change_pass(){
+    const pass = document.getElementById('customer-pass')
+    const c_pass = document.getElementById('customer-pass_conf')
+    if(pass.value !== c_pass.value){
+        alert("password must be equal");
+        return;
+    }
+    if(pass.classList.contains('invalid')){
+        alert("passwoed must be valid");
+        return;
+    }
+    try{
+        const response = await fetch("http://localhost:80/customer/change_pass",{
+            method:"POST",
+            headers:{'content-type':'application/json'},
+            body: JSON.stringify({pass:pass.value})
+        })
+        if(!response.ok){throw new Error("failed to change pass")}
+        const resp = await response.json();
+        if(resp.success){
+            document.getElementById('change_pass_span').click()
+        }else{
+            if(resp.head){
+                window.location.replace(resp.head)
+            }
+        }
+
+    }catch(Error){
+        console.log(Error)
     }
 }
 async function otp_management(action) {
@@ -477,6 +506,10 @@ async function account() {
             if (resp.content) {
                 box.innerHTML = resp.content;
             }
+        }else{
+            if(resp.head){
+                window.location.replace(resp.head)
+            }
         }
     } catch (Error) {
         console.log("failed account");
@@ -489,7 +522,7 @@ async function update_profile() {
         surname: document.getElementById("customer_lname").value,
         email: document.getElementById("customer_email").value,
         tel: document.getElementById("customer_tel").value,
-        pass: document.getElementById("customer_pass").value,
+       
     };
     try {
         const response = await fetch(
@@ -506,6 +539,10 @@ async function update_profile() {
         const resp = await response.json();
         if (resp.success) {
             await account();
+        }else{
+            if(resp.head){
+                window.location.replace(resp.head)
+            }
         }
     } catch (Error) {
         console.log("failed to update profilre");
@@ -523,6 +560,10 @@ async function fetchcat() {
         box.innerHTML = "";
         if (data.success) {
             box.innerHTML = data.content;
+        }else{
+            if(resp.head){
+                window.location.replace(resp.head)
+            }
         }
     } catch (error) {
         console.error("Error fetching data:", error);
@@ -552,6 +593,10 @@ async function by_category(req) {
             } else {
                 box.innerHTML = `<h2 class="empty-q">No Products in this category</h2>`;
             }
+        }else{
+            if(resp.head){
+                window.location.replace(resp.head)
+            }
         }
     } catch (error) {
         console.error("Error fetching data:", error);
@@ -574,6 +619,10 @@ async function get_all(fromPopstate = false) {
         const resp = await response.json();
         if (resp.success) {
             box.innerHTML = resp.products;
+        }else{
+            if(resp.head){
+                window.location.replace(resp.head)
+            }
         }
     } catch (Error) {
         console.log("error in get all: " + Error);
@@ -614,6 +663,10 @@ async function price_maunupuration(name, order, value) {
                 alert("order_id lost");
                 exit();
             }
+        }else{
+            if(resp.head){
+                window.location.replace(resp.head)
+            }
         }
     } catch (Error) {
         console.log(Error);
@@ -637,6 +690,10 @@ async function add_to_cart(bname, prod_id) {
         if (ret_data.sucess) {
             await get_cart();
             console.log("we made it");
+        }else{
+            if(resp.head){
+                window.location.replace(resp.head)
+            }
         }
     } catch (Error) {
         console.log("error in add_cart: " + Error);
@@ -658,6 +715,11 @@ async function get_cart() {
             //issues to slove instead of using id use name in remove update the quer by join the partners table
             side.innerHTML = data.better;
         } else {
+            
+            if(resp.head){
+                window.location.replace(resp.head)
+            
+        }
             side.innerHTML = "<h3>your cart is empty </h3>";
             console.log(data.better);
         }
@@ -680,6 +742,10 @@ async function remove_cart(id, name) {
         console.log(resp);
         if (resp.success) {
             await get_cart();
+        }else{
+            if(resp.head){
+                window.location.replace(resp.head)
+            }
         }
     } catch (Error) {
         console.log("error in remove_cart" + Error);
@@ -698,7 +764,7 @@ async function logout() {
             update_history({ page: "logout" }, "Logged Out", "/");
             const main = document.getElementById("main_view_all");
             const header = document.querySelector("header");
-            const div = document.getElementById("side_menu_content");
+            const div = document.querySelector('main')
             div.innerHTML = "";
             div.innerHTML = `<h2 id="good_bye">GooD ByeE</h2>`;
 
@@ -706,13 +772,15 @@ async function logout() {
             header.style.animation = "none";
             void main.offsetHeight;
             void header.offsetHeight;
-
-            main.style.animation = "slide-right-off 4s ease 0s forwards";
-            header.style.animation = "slide-up-off 4s ease 0s forwards";
+            setTimeout(()=>{
+                main.style.animation = "slide-right-off 4s ease 0s forwards";
+                header.style.animation = "slide-up-off 4s ease 0s forwards";
+            },1500)
+            
 
             setTimeout(() => {
                 window.location.replace("/" + resp.redirect);
-            }, 4000);
+            }, 3000);
         }
     } catch (Error) {
         console.log("error in log out" + Error);
@@ -963,11 +1031,21 @@ document.addEventListener("click", function (e) {
     if (e.target.id === "close-side") {
         close_side(true);
     }
+    if(e.target.id === "change_pass_span"){
+        const box = document.getElementById('change_pass');
+        if(box.style.display==="flex"){
+            e.target.innerText = "change password"
+            box.style.display="none"
+        }else{
+            e.target.innerText = "X"
+            box.style.display="flex"
+        }
+        
+    }
 
     if (e.target.id === "sign-in-btn") {
-        console.log("clicked 123456");
         const box = document.getElementById("log-container");
-        const box2 = document.getElementById("product-container");
+        const box2 = document.getElementById("home-container");
         const box4 = document.querySelector("footer");
         box2.style.opacity = 0.3;
         box4.style.opacity = 0.3;
@@ -988,17 +1066,27 @@ document.addEventListener("click", function (e) {
         const box = document.getElementById("cat_extra_box");
         const cats = document.getElementById("cats");
         const dogs = document.getElementById("pats");
-        box.style.display = "block";
-        cats.style.display = "flex";
-        dogs.style.display = "none";
+        if(box.style.display === "none"){
+            box.style.display = "block";
+            cats.style.display = "flex";
+            dogs.style.display = "none";
+        }else{
+             box.style.display = "none";
+        }
+        
     }
     if (e.target.id === "pat_btn") {
         const box = document.getElementById("cat_extra_box");
         const cats = document.getElementById("cats");
         const dogs = document.getElementById("pats");
-        box.style.display = "block";
-        cats.style.display = "none";
-        dogs.style.display = "flex";
+        if(box.style.display === "none"){
+            box.style.display = "block";
+            cats.style.display = "none";
+            dogs.style.display = "flex";
+        }else{
+            box.style.display = "none";
+        }
+        
     }
 
     /* if(remember){
@@ -1041,9 +1129,9 @@ document.addEventListener("input", function (e) {
             e.target.classList.remove("invalid");
         }
     }
-    if (e.target.id === "c-f-pass" || e.target.id === "customer_pass") {
+    if (e.target.id === "c-f-pass" || e.target.id === "customer_pass" || e.target.id === "customer-pass") {
         const pass = e.target.value;
-        const err = document.getElementById("c-f-pass_err");
+        const err = document.getElementById(e.target.id+"_err");
         if (pass.length >= 8) {
             let hascap = /[A-Z]/.test(pass);
             let hasnum = /[0-9]/.test(pass);

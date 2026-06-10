@@ -44,7 +44,7 @@ class Register
     {
         $this->conn->beginTransaction();
         try {
-            $query = "UPDATE Customers as c join Users as u on c.ID=u.customerID SET ";
+            $query = "UPDATE Customers as c join Users as u on c.ID=u.user_id SET ";
             $set = [];
             $param = [];
             if (isset($data['name']) && !empty($data['name'])) {
@@ -82,7 +82,7 @@ class Register
     {
         $this->conn->beginTransaction();
         try {
-            $query = "UPDATE Partners as c join Partners_users as u on c.ID=u.PartnersID SET ";
+            $query = "UPDATE Partners as c join Partners_users as u on c.ID=u.user_id SET ";
             $set = [];
             $param = [];
             if (isset($data['name']) && !empty($data['name'])) {
@@ -223,7 +223,10 @@ class Register
             ]);
         }
     }
-
+    public function image_update(string $name){
+        $stmt = $this->conn->prepare('UPDATE Partners as p set image=:name where p.ID=:id');
+        $stmt->execute([':name'=>$name,':id'=>$_SESSION['PartnersID']]);
+    }
     public function change_pass(string $pass, string $email)
     {
         $hashed = password_hash($pass, PASSWORD_DEFAULT);

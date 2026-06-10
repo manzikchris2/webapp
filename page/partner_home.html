@@ -33,6 +33,7 @@
             <div class="welcome">
                 <img id="big_img" src="#">
                 <img id="small_img" src="#">
+                <span id="edit_image" class="fas fa-pencil" onclick="show_image_viewer()"></span>
             </div>
         </section>
         </main>
@@ -40,6 +41,18 @@
             <button id="close-btn">X</button>
             <div id="side-container" class="container">
 
+            </div>
+        </aside>
+        <aside id="image_viwer_side">
+            
+            <div id="image_v">
+                <div id="img_v">
+                    <input id="img_update" type="file" accept="image/*" style="display:none">
+                </div>
+                <div id="img_b">
+                    <span id="img_canc_span">cancle</span>
+                    <span id="img_change_span" onclick="change_img()">change</span>
+                </div>
             </div>
         </aside>
     <footer></footer>

@@ -60,6 +60,15 @@ function handle_img() {
     const file = document.getElementById();
 }
 
+function show_image_viewer(){
+    const main = document.querySelector('main');
+    const side = document.getElementById('image_viwer_side');
+    document.getElementById('img_update').click();
+    main.style.pointerEvents='none'
+    side.style.display='flex';
+    
+}
+
 //async functions
 async function show_profile(){
     try{
@@ -239,6 +248,38 @@ async function add_prod() {
         console.log("error in upload: " + Error);
     }
 }
+async function change_img(){
+    const file = document.getElementById('img_update');
+    const img = new FormData();
+    img.append("file",file.files[0]);
+    
+    try{
+        const response = await fetch('http://localhost:80/change/image',{
+            method:"POST",
+            body:img
+        });
+        if(!response.ok){
+            throw new Error('failed to change img')
+        }
+        const resp = await response.json();
+        if(resp.success){
+            window.alert('image was uploded');
+            document.getElementById('img_canc_span').click();
+            window.location.reload();
+        }else{
+            if(resp.message){
+                window.alert(resp.message);
+                window.location.reload();
+            }else if(resp.head){
+                window.location.replace(resp.head);
+            }else{
+                alert("something went wrong ");
+                return;
+            }
+        }
+
+    }catch(Error){console.log(Error)}
+}
 
 async function get_prod() {
     try {
@@ -359,6 +400,8 @@ async function order_ready(id) {
     }
 }
 
+
+
 //order managment
 
 async function order_managment() {
@@ -432,6 +475,12 @@ document.addEventListener("click", function (e) {
         content.innerHTML = `<button id="profile" class="side-btns"> profile</button>
                             <button id="logout" class="side-btns"> logout</button>`;
     }
+    if(e.target.id === 'img_canc_span'){
+        const main = document.querySelector('main');
+        const side = document.getElementById('image_viwer_side');
+        main.style.pointerEvents='all';
+        side.style.display='none';
+    }
     if (e.target.id === "close-btn") {
         const side = document.getElementById("left-side");
         side.style.display = "none";
@@ -482,6 +531,18 @@ document.addEventListener("change", function (e) {
                 const preview = document.getElementById("img_display");
                 preview.style.backgroundImage = 'url("'+event.target.result+'")';
                 preview.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+    if(e.target.id === 'img_update'){
+        const file = e.target.files[0]
+        if(file){
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const preview = document.getElementById("img_v");
+                preview.style.backgroundImage = 'url("'+event.target.result+'")';
+               
             };
             reader.readAsDataURL(file);
         }

@@ -222,7 +222,7 @@ document.addEventListener("input", function (e) {
 
 
 window.addEventListener('click',function(e){ 
-    console.log(e.target)
+    
     if(e.target.classList.contains('order_box')){
         const id = e.target.id;
         const inner_box = document.getElementById(id+'_div');
@@ -258,6 +258,22 @@ window.addEventListener('click',async(e)=>{
             }
         }
     }
+    if(e.target.id === 'profiel'){
+         const box = document.getElementById('side_div')
+    
+        const response = await fetch('http://localhost:80/deliver/profile')
+        if(!response.ok){throw new Error('failed to get profile')}
+        const resp= await response.json();
+        if(resp.success){
+            if(resp.content){
+                box.innerHTML = resp.content
+            }
+        }else{
+            if(resp.head){
+                window.location.replace(resp.head);
+            }
+        }
+    }
 
 }catch(Error){
     console.log(Error)
@@ -286,6 +302,10 @@ async function get_function(path,box_id){
     }catch(Error){
         console.log(Error)
     }
+}
+async function get_profile(){
+   
+   
 }
 async function register(){
     let data = {}
