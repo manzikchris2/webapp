@@ -48,8 +48,9 @@ class Payment{
         $this->conn->beginTransaction();
         $pay_id = '';
         if(!isset($card['payement_id'])){
-            $stmt = $this->conn->prepare('INSERT INTO payments(c_number,cvs,customerID,brand) VALUES(:card_num,:cvs,:customerID,:brand)');
-            $stmt->execute(['card_num'=>$card['number'],'cvs'=>$card['cvs'],'customerID'=>$card['customerID'],'brand'=>$card['brand']]);
+            $i_number = $this->incrypt_card($card['number']);
+            $stmt = $this->conn->prepare('INSERT INTO payments(c_number,customerID,brand) VALUES(:card_num,:customerID,:brand)');
+            $stmt->execute(['card_num'=>$i_number,'customerID'=>$card['customerID'],'brand'=>$card['brand']]);
             $pay_id = $this->conn->lastInsertId();
         }
         else{
@@ -70,6 +71,14 @@ class Payment{
                                   'card'=>$card]);
         }
     
+   }
+   private function incrypt_card(string $card){
+     $numbers = str_replace('-', '', $card);
+    $last4 = substr($numbers, -4);
+    $masked = str_repeat('x', strlen($numbers) - 4) . $last4;
+    $formatted = implode('-', str_split($masked, 4));
+    
+    return $formatted;
    }
  
 }

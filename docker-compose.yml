@@ -10,6 +10,7 @@ services:
       - ./:/var/www/html
     environment:
       - APACHE_DOCUMENT_ROOT=/var/www/html
+      - APP_ENV=development
     command: >
       bash -c "docker-php-ext-install mysqli pdo pdo_mysql &&
                a2enmod rewrite headers &&

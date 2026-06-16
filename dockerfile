@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-# Install dependencies and PHP extensions in one RUN
+# Install dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -10,21 +10,26 @@ RUN apt-get update && apt-get install -y \
     pdo \
     pdo_mysql \
     zip \
-    && a2enmod rewrite headers
+    && a2enmod rewrite headers \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Copy and install dependencies
-COPY composer.json ./
-RUN composer install --no-interaction 2>/dev/null || true
+# Copy composer files first (better for caching)
+COPY composer.json composer.lock* ./
+
+# Install dependencies (REMOVED the error hiding)
+RUN composer install --no-interaction --no-progress --no-suggest
 
 # Copy all files
 COPY . .
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html
+# Set correct permissions
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html \
+    && chmod -R 775 /var/www/html/vendor
 
 CMD ["apache2-foreground"]

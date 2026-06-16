@@ -1,5 +1,5 @@
 <?php
-   function file_request($path){
+   function file_request(string $path){
      $filename = basename($path);
                         $extension = pathinfo($filename,PATHINFO_EXTENSION);
                         if($extension === 'css'){

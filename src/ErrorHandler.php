@@ -7,8 +7,7 @@ class ErrorHandler{
             "code" => $exception->getCode(),
             "message" => $exception->getMessage(),
             "file" => $exception->getFile(),
-            "line" => $exception->getLine(),
-            'session'=> $_SESSION
+            "line" => $exception->getLine()
             
         ]);
         

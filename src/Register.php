@@ -31,8 +31,19 @@ class Register
     }
     public function check_mail(string $email, string $attr): bool
     {
-        $stmt = $this->conn->prepare("SELECT `email` FROM `Users` WHERE `email`= :email and 'attribute'=:attr");
+        $stmt = $this->conn->prepare("SELECT `email` FROM `Users` WHERE `email`= :email and attribute=:attr");
         $stmt->execute(["email" => $email,'attr'=>$attr]);
+        $num = $stmt->rowCount();
+        if ($num > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+     public function check_tel(string $email, string $attr): bool
+    {
+        $stmt = $this->conn->prepare("SELECT `Tel` FROM `Users` WHERE `Tel`= :email and attribute =:attr");
+        $stmt->execute([":email" => $email,'attr'=>$attr]);
         $num = $stmt->rowCount();
         if ($num > 0) {
             return true;
@@ -165,9 +176,8 @@ class Register
                 $params1 = ['email' => $email, 'pass' => $hash, 'tel' => $tel, 'c_id' => $this->id];
                 $stmt1->execute($params1);
                 $token = substr(uniqid('T-'), 0, 8);
-                $session = substr(uniqid('s-'), 0, 8);
-                $stmt2 = $this->conn->prepare("INSERT into User_Tokens(token_id,user_id,session_id,time) values(:token,:user,:session_id,:time)");
-                $stmt2->execute(['token' => $token, 'user' => $this->id, 'session_id' => $session, 'time' => time()]);
+                $stmt2 = $this->conn->prepare("INSERT into User_Tokens(token_id,user_id,time) values(:token,:user,:time)");
+                $stmt2->execute(['token' => $token, 'user' => $this->id, 'time' => time()]);
                 $this->conn->commit();
                 return json_encode(["success" => true, "message" => "registration successful"]);
             }
@@ -188,7 +198,7 @@ class Register
                 $id = substr(uniqid("p_"), 0, 10);
                 $res = $stmt->execute(['id' => $id, 'name' => $name, 'bname' => $b_name, 'adress' => $address]);
                 if ($res) {
-                    $stmt2 = $this->conn->prepare("INSERT INTO `Partners_users`(`pass`,`email`,`Tel`,`PartnersID`) VALUES (:pass,:email,:tel,:id)");
+                    $stmt2 = $this->conn->prepare("INSERT INTO `Users`(`pass`,`email`,`Tel`,`user_id`,`attribute`) VALUES (:pass,:email,:tel,:id,'p')");
                     $hash = password_hash($pass, PASSWORD_DEFAULT);
                     $stmt2->execute(['pass' => $hash, 'email' => $email, 'tel' => $tel, 'id' => $id]);
                     $token = substr(uniqid('T-'), 0, 8);

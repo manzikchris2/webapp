@@ -28,7 +28,7 @@ body::-webkit-scrollbar {
    BACKGROUND
    ==================== */
 .body_img {
-    background-image: url("/page/image/backgrounds/3862943.jpg");
+    background-image: url("/page/image/mainwall.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -143,7 +143,7 @@ input {
     animation: slide-down 2s ease 0s 1 forwards;
 }
 #nav-welcome {
-    background-image: url("/page/image/backgrounds/3862943.jpg");
+    background-color:rgba(0, 0, 0, 0.282);
     background-size: 100% 100%;
     border: 3px solid rgb(151, 219, 242);
     box-shadow: 0 0 20px rgba(151, 219, 242, 0.9);
@@ -536,8 +536,10 @@ span:hover {
 }
 .product_slice:hover {
     flex-wrap: wrap;
-    height: 800px;
+    height: fit-content ;
     overflow-y: scroll;
+    justify-content:left;
+    margin-left: 20%;
 }
 
 .product_slice::-webkit-scrollbar {
@@ -1310,13 +1312,17 @@ footer:hover {
 .track.left{
     animation: slide-right-for-slide 40s linear infinite;
 }
+.track.left:hover{
+    animation-play-state:paused;
+}
 .track.right{
     animation: slide-right-for-slide 40s linear reverse infinite;
 }
-
-.track :hover {
-    animation-play-state: paused;
+.track.right:hover{
+    animation-play-state:paused;
 }
+
+
 
 .sliders {
     width: 200px;

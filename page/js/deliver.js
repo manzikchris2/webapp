@@ -235,7 +235,9 @@ window.addEventListener('click',function(e){
         box.style.display='flex'
         box2.style.display='none'
     }
-    
+    if (e.target.id === "forgot-pass") {
+        window.location.href = "/retrive/d";
+    }
 })
 
 window.addEventListener('click',async(e)=>{

@@ -496,6 +496,9 @@ document.addEventListener("click", function (e) {
     if (e.target.id === "profile") {
         profile_display();
     }
+    if (e.target.id === "forgot-pass") {
+        window.location.href = "/retrive/p";
+    }
 });
 //drag-over
 
@@ -645,6 +648,52 @@ document.addEventListener("submit", function (e) {
         add_prod();
     }
 });
+document.addEventListener('input',async(e)=>{
+    if(e.target.id === 'p-email'){
+        const value = e.target.value
+        if( value.includes("@") && value.includes(".com")){
+            const response = await fetch('http://localhost:80/partner/check/mail',{
+                method:'POST',
+                headers:{'content-type':'application/json'},
+                body: JSON.stringify({email:value})
+
+            });
+            if(!response.ok){throw new Error('failed to check email')};
+            const resp = await response.json();
+             let err = document.getElementById('p-email-err')
+            if(!resp.success){
+                let err = document.getElementById('p-email-err')
+                e.target.classList.add('invalid')
+                err.classList.remove('hidden');
+                err.innerText = 'email already in use';
+            }else{
+                err.classList.add('hidden');
+                err.innerText = '';
+            }
+        }
+    }
+    if(e.target.id === 'p-tel'){
+        const value = e.target.value
+        if(value.length === 10){
+            const response = await fetch('http://localhost:80/partner/check/tel',{
+                method:'POST',
+                header:{'content-type':'application/json'},
+                body:JSON.stringify({tel:value})
+            });
+            if(!response.ok){throw new Error('failed to check mail')}
+            const resp = await response.json();
+            let err = document.getElementById('p-tel-err')
+            if(resp.success){
+                err.classList.add('hidden');
+                err.innerText=''; 
+            }else{
+                e.target.classList.add('invalid')
+                err.classList.remove('hidden');
+                err.innerText='number already in use'; 
+            }
+        }
+    }
+})
 
 document.addEventListener("DOMContentLoaded", function (e) {
     show_profile()

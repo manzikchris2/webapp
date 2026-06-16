@@ -186,6 +186,16 @@ login fomr
     color: white;
     background-color: rgba(80, 79, 79, 0.436);
 }
+#forgot-pass {
+    text-align: center;
+    width: 100%;
+    text-decoration: underline;
+    transition:all 1s ease-in;
+    cursor:default;
+}
+#forgot-pass:hover{
+    color:pink;
+}
 #login_btn {
     width: 100%;
     color: black;

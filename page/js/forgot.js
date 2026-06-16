@@ -35,11 +35,9 @@ document.addEventListener("click", async (e) => {
             if (email.classList.contains("invalid")) {
                 return;
             }
-            const origin = getcookies("origin");
-            if (origin === "") {
-                alert("how");
-                return;
-            }
+           
+            const path = window.location.pathname.split('/')
+           const origin = decodeURIComponent(path.pop())
             const response = await fetch("http://localhost:80/forgot/check", {
                 method: "post",
                 header: { "content-type": "application/json" },

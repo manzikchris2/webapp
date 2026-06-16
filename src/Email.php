@@ -117,14 +117,14 @@ class Email
             return false;
         }
     }
-    public function sendreset()
+    public function sendreset(string $attr)
     {
         try {
             $userId = $this->reciver;
-            $userType = 'customer';
+            $userType = ['c'=>'customer','p'=>'partner','d'=>'deliver'];
             $origin = 'http://localhost:80'; // or use $_SERVER['HTTP_HOST']
             $encodedId = urlencode($userId);
-            $encodedType = urlencode($userType);
+            $encodedType = urlencode($userType[$attr]);
 
             $this->configureSMTP();
             $this->mail->Subject = 'Password Reset Request';

@@ -594,8 +594,8 @@ async function by_category(req) {
                 box.innerHTML = `<h2 class="empty-q">No Products in this category</h2>`;
             }
         }else{
-            if(resp.head){
-                window.location.replace(resp.head)
+            if(data.head){
+                window.location.replace(data.head)
             }
         }
     } catch (error) {
@@ -691,8 +691,8 @@ async function add_to_cart(bname, prod_id) {
             await get_cart();
             console.log("we made it");
         }else{
-            if(resp.head){
-                window.location.replace(resp.head)
+            if(ret_data.head){
+                window.location.replace(ret_data.head)
             }
         }
     } catch (Error) {
@@ -1059,8 +1059,7 @@ document.addEventListener("click", function (e) {
         box.style.zIndex = "1000";
     }
     if (e.target.id === "forgot-pass") {
-        document.cookie = "origin = customer";
-        window.location.href = "/retrive";
+        window.location.href = "/retrive/c";
     }
     if (e.target.id === "cat_btn") {
         const box = document.getElementById("cat_extra_box");

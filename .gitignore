@@ -1,0 +1,56 @@
+# Dependencies - NEVER COMMIT THESE!
+vendor/
+node_modules/
+composer.phar
+composer.lock
+package-lock.json
+
+# Database files - TOO LARGE!
+*.sql
+*.sql.gz
+*.db
+*.sqlite
+dump.sql
+
+# Uploaded files
+uploads/
+page/images/
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.mp4
+*.avi
+*.mov
+
+# Logs
+*.log
+error_log
+access_log
+cache/
+tmp/
+
+# Config files with sensitive data
+.env
+.env.local
+.env.*
+config/database.php
+config/sse-config.php
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+.desktop.ini
+
+# Git hooks
+.git/hooks/
+
+.DS_Store
+**/DS_Store

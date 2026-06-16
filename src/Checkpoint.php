@@ -3,6 +3,12 @@ class Checkpoint
 {
     public static function check($type = null)
     {
+        $time_dif = time() - $_SESSION['login-time'];
+        if($time_dif > 900){
+            return json_encode(['success' => false, 'head' => '/welcome']);
+        }else{
+            $_SESSION['login-time'] = time();
+        }
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] === false) {
             return json_encode(['success' => false, 'head' => '/welcome']);
         }
@@ -53,7 +59,7 @@ class Checkpoint
             // Clear the cookie array
             $_COOKIE = [];
 
-            $pages = ['c' => "welcome", 'p' => 'partner_home', 'd' => 'deliver'];
+            $pages = ['c' => "welcome", 'p' => 'partner', 'd' => 'deliver'];
 
             return json_encode([
                 "success" => true,
