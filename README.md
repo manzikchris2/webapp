@@ -214,10 +214,4 @@ For production deployment:
 5. Test your changes thoroughly
 6. Submit a pull request
 
-## License
 
-[Specify your license here]
-
-## Contact
-
-[Your contact information]
