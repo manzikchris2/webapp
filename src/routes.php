@@ -17,7 +17,7 @@ use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 
 
 
-function route(string $method,string $path)
+function route(string $method, string $path)
 {
     spl_autoload_register(function ($class) {
         require __DIR__ . "/$class.php";
@@ -30,12 +30,16 @@ function route(string $method,string $path)
     });
     $router->POST('/login', function () {
         try {
+            $db = new Database();
+            $conn = $db->get_connection();
+            $rate = new RateLimit($conn, 5, 60);
+            $rate->checkLimit();
             $jdata = file_get_contents('php://input');
             $data = json_decode($jdata, true);
             if (!isset($data['user']) || !isset($data['pass'])) {
                 throw new Exception("email and password are required");
             }
-            $login = new customer(new Database());
+            $login = new customer($db);
 
 
             return $login->sign_in($data['user'], $data['pass']);
@@ -45,9 +49,13 @@ function route(string $method,string $path)
     });
 
     $router->post('/register/customer', function () {
+        $db=new Database();
+        $conn = $db->get_connection();
+        $rate = new RateLimit($conn,5,300);
+        $rate->checkLimit();
         $data = file_get_contents('php://input');
         $data = json_decode($data, true);
-        $register = new Register(new Database());
+        $register = new Register($db);
         try {
             if (!isset($data['c-f-email']) || !isset($data['c-f-pass']) || !isset($data['c-f-name'])) {
                 throw new Exception("email  password and name are required");
@@ -68,9 +76,13 @@ function route(string $method,string $path)
     });
 
     $router->post('/register/partner', function () {
+        $db=new Database();
+        $conn = $db->get_connection();
+        $rate = new RateLimit($conn,5,300);
+        $rate->checkLimit();
         $data = file_get_contents('php://input');
         $data = json_decode($data, true);
-        $register = new Register(new Database());
+        $register = new Register($db);
         if (!isset($data['p-email']) || !isset($data['p-pass']) || !isset($data['p-r-name']) || !isset($data['p-tel']) ||  !isset($data['p-address'])) {
             return json_encode(["error" => "missing required please fill them in", "data" => $data]);
         } else {
@@ -78,30 +90,41 @@ function route(string $method,string $path)
         }
     });
     $router->post('/login/partner', function () {
+        $db=new Database();
+        $conn = $db->get_connection();
+        $rate = new RateLimit($conn,5,60);
+        $rate->checkLimit();
         $data = file_get_contents('php://input');
         $data = json_decode($data, true);
-        $login = new Partner(new Database());
+        $login = new Partner($db);
         if (!isset($data['p-user']) || !isset($data['p-password'])) {
             return json_encode(["error" => "email and password are required"]);
         } else {
             return $login->sign_in($data["p-user"], $data['p-password']);
         }
     });
-    $router->post('/deliver/login',function(){
+    $router->post('/deliver/login', function () {
+        $db=new Database();
+        $conn = $db->get_connection();
+        $rate = new RateLimit($conn,5,60);
+        $rate->checkLimit();
         $data = file_get_contents('php://input');
-        $data = json_decode($data,true);
-        $login = new Delivery(new Database());
-        if(empty($data['d-user']) || empty($data['d-pass']) ){
-            return json_encode(['success'=>false,'message' => 'email and password required',$data]);
-        }else{
-             return $login->check_deliver($data);
+        $data = json_decode($data, true);
+        $login = new Delivery($db);
+        if (empty($data['d-user']) || empty($data['d-pass'])) {
+            return json_encode(['success' => false, 'message' => 'email and password required', $data]);
+        } else {
+            return $login->check_deliver($data);
         }
-
     });
-    $router->post('/deliver/register',function(){
+    $router->post('/deliver/register', function () {
+        $db=new Database();
+        $conn = $db->get_connection();
+        $rate = new RateLimit($conn,5,60);
+        $rate->checkLimit();
         $data = file_get_contents('php://input');
-        $data = json_decode($data,true);
-        $register = new Register(new Database());
+        $data = json_decode($data, true);
+        $register = new Register($db);
         return $register->register_deliver($data);
     });
     $router->post('/customer/OTP/{counter}', function ($counter) {
@@ -112,9 +135,9 @@ function route(string $method,string $path)
         $data = file_get_contents('php://input');
         $data = json_decode($data, true);
         $login = new Login(new Database());
-        return $login->otp_management($data,'c');
+        return $login->otp_management($data, 'c');
     });
-     $router->post('/deliver/OTP/{counter}', function ($counter) {
+    $router->post('/deliver/OTP/{counter}', function ($counter) {
         if ($counter == 5) {
             header('location:/logout/customer');
             exit();
@@ -122,12 +145,12 @@ function route(string $method,string $path)
         $data = file_get_contents('php://input');
         $data = json_decode($data, true);
         $login = new Login(new Database());
-        return $login->otp_management($data,'d');
+        return $login->otp_management($data, 'd');
     });
     $router->post('/customer/address', function () {
-        if(Checkpoint::check('customer') !== true){
+        if (Checkpoint::check('customer') !== true) {
             return Checkpoint::check('customer');
-        } 
+        }
         $data = file_get_contents('php://input');
         $data = json_decode($data, true);
         if (empty($data['address'])) {
@@ -139,9 +162,9 @@ function route(string $method,string $path)
     });
 
     $router->get('/customer/profile', function () {
-        if(Checkpoint::check('customer') !== true){
+        if (Checkpoint::check('customer') !== true) {
             return Checkpoint::check('customer');
-        } 
+        }
         $customer = new Customer(new Database());
         return $customer->profile_customer();
     });
@@ -151,62 +174,56 @@ function route(string $method,string $path)
         return $customer->profile_deliver();
     });
     $router->post('/customer/update_profile', function () {
-        if(Checkpoint::check('customer') !== true){
+        if (Checkpoint::check('customer') !== true) {
             return Checkpoint::check('customer');
-        } 
-        
+        }
+
         $data = file_get_contents('php://input');
         $data = json_decode($data, true);
         $customer = new register(new Database);
         return $customer->update_user($data);
     });
-    $router->get('/partner/update_products',function(){
-       if( Checkpoint::check('partner') !== true){
-        return  Checkpoint::check('partner');
-       }
+    $router->get('/partner/update_products', function () {
+        if (Checkpoint::check('partner') !== true) {
+            return  Checkpoint::check('partner');
+        }
         $prod = new Product(new Database());
         return $prod->get_by_partner();
-      
-
     });
 
-    $router->post('/partner/check/mail',function(){
-         $data = file_get_contents('php://input');
+    $router->post('/partner/check/mail', function () {
+        $data = file_get_contents('php://input');
         $data = json_decode($data, true);
-        if(!isset($data['email'])  || empty($data['email'])){
-            return json_encode(['success'=>false , 'message'=>'error']);
-
+        if (!isset($data['email'])  || empty($data['email'])) {
+            return json_encode(['success' => false, 'message' => 'error']);
         }
         $reg = new Register(new Database());
-        $veldict = $reg->check_mail($data['email'],'p');
-        if($veldict){
-             return json_encode(['success'=>false]);
-        }else{
-             return json_encode(['success'=>true]);
+        $veldict = $reg->check_mail($data['email'], 'p');
+        if ($veldict) {
+            return json_encode(['success' => false]);
+        } else {
+            return json_encode(['success' => true]);
         }
-
     });
-    $router->post('/partner/check/tel',function(){
-         $data = file_get_contents('php://input');
+    $router->post('/partner/check/tel', function () {
+        $data = file_get_contents('php://input');
         $data = json_decode($data, true);
-        if(!isset($data['tel'])  || empty($data['tel'])){
-            return json_encode(['success'=>false , 'message'=>'error']);
-
+        if (!isset($data['tel'])  || empty($data['tel'])) {
+            return json_encode(['success' => false, 'message' => 'error']);
         }
         $reg = new Register(new Database());
-        $veldict = $reg->check_tel($data['tel'],'p');
-        if($veldict){
-             return json_encode(['success'=>false]);
-        }else{
-             return json_encode(['success'=>true]);
+        $veldict = $reg->check_tel($data['tel'], 'p');
+        if ($veldict) {
+            return json_encode(['success' => false]);
+        } else {
+            return json_encode(['success' => true]);
         }
-
     });
-    
-    $router->get('/partner/categories',function(){
-         $category = new Categories(new Database());
-         $cat = $category->get_all_categories();
-         $form = '<form class="container" id="add_product-form">
+
+    $router->get('/partner/categories', function () {
+        $category = new Categories(new Database());
+        $cat = $category->get_all_categories();
+        $form = '<form class="container" id="add_product-form">
                 <div id="upload_container" class="container">
                     <div id="drop_area">
                            <div class="upload-text">Click to browse here </div>
@@ -226,29 +243,28 @@ function route(string $method,string $path)
                 <label for="p-category"> category</label>
                 <select id="p-category">
                 <option disabled selected></option>';
-            foreach($cat as $id => $name){
-                $form .= '<option value="'.htmlspecialchars($id).'">'.htmlspecialchars($name).'</option>';
-            }
-            $form .= '</select>
+        foreach ($cat as $id => $name) {
+            $form .= '<option value="' . htmlspecialchars($id) . '">' . htmlspecialchars($name) . '</option>';
+        }
+        $form .= '</select>
                         <label for="p-price"> price</label>
                         <input type="number" id="p-price"  min="0" >
                         <button type="submit" id="add-product-button">add product</button>
                         <p class="form_err"></p>
                         </form>';
-         
-        return json_encode(['success'=>true,'content'=>$form]);
+
+        return json_encode(['success' => true, 'content' => $form]);
     });
-    $router->post('/change/image',function(){
-        if(Checkpoint::check('partner') !== true){
+    $router->post('/change/image', function () {
+        if (Checkpoint::check('partner') !== true) {
             return Checkpoint::check('partner');
         }
         $filename = $_SESSION['PartnersID'];
-        if(!isset($_FILES['file']) || empty($_FILES['file'])){
-            return json_encode(['success'=>false,'message'=>'missing file']);
+        if (!isset($_FILES['file']) || empty($_FILES['file'])) {
+            return json_encode(['success' => false, 'message' => 'missing file']);
         }
         $upload = new Upload();
-        return $upload->upload('change',$_FILES['file'],$filename);
-        
+        return $upload->upload('change', $_FILES['file'], $filename);
     });
     $router->get('/categories', function () {
         $category = new Categories(new Database());
@@ -275,10 +291,10 @@ function route(string $method,string $path)
         return json_encode(['success' => true, 'content' => $html]);
     });
     $router->get('/products/all', function () {
-        if(Checkpoint::check('customer') !== true){
+        if (Checkpoint::check('customer') !== true) {
             return Checkpoint::check('customer');
         }
-        
+
         $data = file_get_contents('php://input');
         $data = json_decode($data, true);
         $product = new Product(new Database());
@@ -288,9 +304,9 @@ function route(string $method,string $path)
     });
 
     $router->any('/products/category', function () {
-         if(Checkpoint::check('customer') !== true){
+        if (Checkpoint::check('customer') !== true) {
             return Checkpoint::check('customer');
-        } 
+        }
         $data = file_get_contents('php://input');
         $data = json_decode($data, true);
         $product = new Product(new Database());
@@ -317,21 +333,21 @@ function route(string $method,string $path)
     });
 
     $router->get('/product/best', function () {
-        if(Checkpoint::check('customer') !== true){
+        if (Checkpoint::check('customer') !== true) {
             return Checkpoint::check('customer');
-        } 
+        }
         $product = new Product(new Database);
         return $product->best_seller();
     });
 
 
 
-    
-    
+
+
     $router->post("/order/delete", function () {
-        if(Checkpoint::check('customer') !== true){
+        if (Checkpoint::check('customer') !== true) {
             return Checkpoint::check('customer');
-        } 
+        }
         $data = file_get_contents('php://input');
         $data = json_decode($data, true);
         if (isset($data['p_id'])) {
@@ -350,9 +366,9 @@ function route(string $method,string $path)
         return $order->order_management($data, 'accept');
     });
     $router->post('/order/quantity_change', function () {
-        if(Checkpoint::check('customer') !== true){
+        if (Checkpoint::check('customer') !== true) {
             return Checkpoint::check('customer');
-        } 
+        }
         $data = file_get_contents('php://input');
         $data = json_decode($data, true);
         if (!isset($data['id']) || !isset($data['quantity']) || !isset($data['pname'])) {
@@ -378,9 +394,9 @@ function route(string $method,string $path)
         }
     });
     $router->post("/orders/partner", function () {
-        if(Checkpoint::check('customer') !== true){
+        if (Checkpoint::check('customer') !== true) {
             return Checkpoint::check('customer');
-        } 
+        }
         $cid = $_SESSION["customer_id"];
         $data = file_get_contents('php://input');
         $data = json_decode($data, true);
@@ -391,9 +407,9 @@ function route(string $method,string $path)
     });
 
     $router->post("/order", function () {
-        if(Checkpoint::check('customer') !== true){
+        if (Checkpoint::check('customer') !== true) {
             return Checkpoint::check('customer');
-        } 
+        }
         $data = file_get_contents('php://input');
         $data = json_decode($data, true);
         if (isset($data['partner']) || isset($data['product'])) {
@@ -404,9 +420,9 @@ function route(string $method,string $path)
         }
     });
     $router->get("/order/cart", function () {
-        if(Checkpoint::check('customer') !== true){
+        if (Checkpoint::check('customer') !== true) {
             return Checkpoint::check('customer');
-        } 
+        }
         $cutomer['id'] = $_SESSION['customer_id'];
         $orders = new Order(new Database());
         return $orders->order_management($cutomer, "retrive");
@@ -415,53 +431,50 @@ function route(string $method,string $path)
     $router->any("/logout/customer", function () {
         return Checkpoint::logout('c');
     });
-    $router->get('/deliver/logout',function(){
-       return Checkpoint::logout('d');
+    $router->get('/deliver/logout', function () {
+        return Checkpoint::logout('d');
     });
     $router->any("/logout/partner", function () {
         return Checkpoint::logout('p');
     });
-    $router->get('/deliver/retive',function(){
-        if(Checkpoint::check('deliver') !== true){
+    $router->get('/deliver/retive', function () {
+        if (Checkpoint::check('deliver') !== true) {
             return Checkpoint::check('deliver');;
-        }else if(Checkpoint::rider() ==! true){
-           return Checkpoint::rider();
-
+        } else if (Checkpoint::rider() == ! true) {
+            return Checkpoint::rider();
         }
 
         $order = new Order(new Database());
         return $order->order_retrive('d');
-
     });
-    $router->get('/deliver/accept/{order_id}',function($order_id){
-         if(Checkpoint::check('deliver') !== true){
+    $router->get('/deliver/accept/{order_id}', function ($order_id) {
+        if (Checkpoint::check('deliver') !== true) {
             return Checkpoint::check('deliver');;
-        }if(Checkpoint::rider() !== true){
+        }
+        if (Checkpoint::rider() !== true) {
             return Checkpoint::rider();
         }
 
         $order_i = urldecode($order_id);
         $order = new Order(new Database());
         return $order->order_accept($order_i);
-
     });
-    $router->get('/deliver/current_orders',function(){
-         if(Checkpoint::check('deliver') !== true){
+    $router->get('/deliver/current_orders', function () {
+        if (Checkpoint::check('deliver') !== true) {
             return Checkpoint::check('deliver');
         }
         $order = new Order(new Database());
         return $order->orderInDelivery();
     });
-    $router->get('/deliver/done',function(){
-         if(Checkpoint::check('deliver') !== true){
+    $router->get('/deliver/done', function () {
+        if (Checkpoint::check('deliver') !== true) {
             return Checkpoint::check('deliver');;
         }
         $order = new Order(new Database());
         return $order->deliveryDone();
-
     });
-    $router->get('/deliver/history',function(){
-         if(Checkpoint::check('deliver') !== true){
+    $router->get('/deliver/history', function () {
+        if (Checkpoint::check('deliver') !== true) {
             return Checkpoint::check('deliver');;
         }
         $order = new Order(new Database());
@@ -469,7 +482,7 @@ function route(string $method,string $path)
     });
 
     $router->post("/search", function () {
-         if(Checkpoint::check('customer') !== true){
+        if (Checkpoint::check('customer') !== true) {
             return Checkpoint::check('customer');;
         }
         $data = file_get_contents('php://input');
@@ -483,7 +496,7 @@ function route(string $method,string $path)
     });
 
     $router->post('/search/retrive', function () {
-         if(Checkpoint::check('customer') !== true){
+        if (Checkpoint::check('customer') !== true) {
             return Checkpoint::check('customer');;
         }
         $data = file_get_contents('php://input');
@@ -492,7 +505,7 @@ function route(string $method,string $path)
         return $search->searched($data);
     });
     $router->any('/search/ready', function () {
-         if(Checkpoint::check('partner') !== true){
+        if (Checkpoint::check('partner') !== true) {
             return Checkpoint::check('partner');;
         }
         $search = new Search(new Database());
@@ -500,27 +513,27 @@ function route(string $method,string $path)
     });
 
     $router->get('/partner/all', function () {
-        if(Checkpoint::check('partner') !== true){
+        if (Checkpoint::check('partner') !== true) {
             return Checkpoint::check('partner');;
         }
         $order = new Order(new Database());
         return $order->order_management([], 'active');
     });
-    $router->get('/partner/get_profile',function(){
-        if(Checkpoint::check('partner') !== true){
-            return json_encode(['success'=>false,'message'=>'login']);
+    $router->get('/partner/get_profile', function () {
+        if (Checkpoint::check('partner') !== true) {
+            return json_encode(['success' => false, 'message' => 'login']);
         }
-        return json_encode(['success'=>true,'content'=>$_SESSION['PartnersID']]);
+        return json_encode(['success' => true, 'content' => $_SESSION['PartnersID']]);
     });
     $router->get('/partner/profile', function () {
-        if(Checkpoint::check('partner') !== true){
+        if (Checkpoint::check('partner') !== true) {
             return Checkpoint::check('partner');;
         }
         $login = new Partner(new Database());
         return $login->profile_partner();
     });
     $router->post('/partner/update_profile', function () {
-        if(Checkpoint::check('partner') !== true){
+        if (Checkpoint::check('partner') !== true) {
             return Checkpoint::check('partner');;
         }
         $data = file_get_contents('php://input');
@@ -535,7 +548,7 @@ function route(string $method,string $path)
         $data = file_get_contents('php://input');
         $data = json_decode($data, true);
         $register = new register(new Database());
-        $exist = $register->check_mail($data['email'],$data['origin']);
+        $exist = $register->check_mail($data['email'], $data['origin']);
         if ($exist) {
             $mail = new Email($data['email']);
             return json_encode(['success' => true, 'issue' => $mail->sendreset($data['origin'])]);
@@ -560,13 +573,13 @@ function route(string $method,string $path)
         readfile(__DIR__ . '/../page/forgot.html');
         exit();
     });
-     $router->get('/deliver', function () {
+    $router->get('/deliver', function () {
         header("content-type: text/html");
         readfile(__DIR__ . '/../page/deliver.html');
         exit();
     });
-       $router->get('/deliver/murugo', function () {
-        if(Checkpoint::check('deliver') !== true){
+    $router->get('/deliver/murugo', function () {
+        if (Checkpoint::check('deliver') !== true) {
             return Checkpoint::check('deliver');;
         }
         header("content-type: text/html");
@@ -574,33 +587,32 @@ function route(string $method,string $path)
         exit();
     });
     $router->get('/about', function () {
-       
+
         header("content-type: text/html");
         readfile(__DIR__ . '/../page/home3.html');
         exit();
     });
-    $router->post('/customer/change_pass',function(){
-        if(Checkpoint::check('customer') !== true){
-           header('location:/welcome');
+    $router->post('/customer/change_pass', function () {
+        if (Checkpoint::check('customer') !== true) {
+            header('location:/welcome');
         }
         $data = file_get_contents('php://input');
-        $data = json_decode($data,true);
+        $data = json_decode($data, true);
         $login = new Login(new Database());
-        return $login->change_pass($data['pass'],'c');
-
+        return $login->change_pass($data['pass'], 'c');
     });
     $router->get('/home', function () {
-        if(Checkpoint::check('customer') !== true){
-             header('location:/welcome');
-        } 
+        if (Checkpoint::check('customer') !== true) {
+            header('location:/welcome');
+        }
         header("content-type: text/html");
         readfile(__DIR__ . '/../page/home2.html');
         exit();
     });
     $router->get('/payment', function () {
-        if(Checkpoint::check('customer') !== true){
-             header('location:/welcome');
-        } 
+        if (Checkpoint::check('customer') !== true) {
+            header('location:/welcome');
+        }
         header("content-type:text/html");
         readfile(__DIR__ . '/../page/payment.html');
         exit();
@@ -622,7 +634,7 @@ function route(string $method,string $path)
         }
     });
     $router->get('/partner_home', function () {
-        if(Checkpoint::check('partner') !== true){
+        if (Checkpoint::check('partner') !== true) {
             header('location:/welcome');
         }
         header("content-type:text/html");
@@ -630,7 +642,7 @@ function route(string $method,string $path)
         exit();
     });
     $router->any('/payment/order', function () {
-        if(Checkpoint::check('customer') !== true){
+        if (Checkpoint::check('customer') !== true) {
             return Checkpoint::check('customer');
         }
         $data = file_get_contents('php://input');
@@ -640,7 +652,7 @@ function route(string $method,string $path)
         return $payment->payment($data, 'retrive');
     });
     $router->post('/pay', function () {
-        if(Checkpoint::check('customer') !== true){
+        if (Checkpoint::check('customer') !== true) {
             header('location:/welcome');
         }
         $data = file_get_contents('php://input');
@@ -685,8 +697,7 @@ function route(string $method,string $path)
             foreach ($resp as $key => $values) {
                 echo $key . ' : ' . $values;
             }
-        }
-        else{
+        } else {
             echo $resp;
         }
     } catch (HttpRouteNotFoundException $e) {

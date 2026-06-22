@@ -373,9 +373,10 @@ async function login(demand, user, pass, err) {
         } else {
             err.classList.remove("hidden");
             if (data.message) {
-                err.innerText = "invalid username or password";
-            }
-            err.innerText = "invalid username or password";
+                err.innerText = data.message;
+            }else{ 
+            err.innerText = "error occured please reload the page";
+        }
         }
     } catch (Error) {
         console.error("Error fetching data:", Error);
@@ -1232,7 +1233,7 @@ document.addEventListener("input", function (e) {
     }
 });
 
-// evet listner for page load
+// event listner for page load
 document.addEventListener("DOMContentLoaded", function () {
     const path = window.location.pathname;
     box_management();
@@ -1242,11 +1243,6 @@ document.addEventListener("DOMContentLoaded", function () {
         restore_page_state(); // This restores from URL/saved state
     }
 });
-
-document.addEventListener("mouseover", function (e) {});
-
-document.addEventListener("mouseout", function (e) {});
-
 // ob submit
 
 document.addEventListener("submit", function (e) {
@@ -1272,3 +1268,4 @@ document.addEventListener(
     },
     true,
 );
+

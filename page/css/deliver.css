@@ -213,6 +213,15 @@ login fomr
     color: grey;
     background-color: white;
 }
+#login_message {
+    display:none;
+    width: 100%;
+    text-align: center;
+    border: 2px solid red;
+    background-color: rgba(255, 150, 150);
+    padding: 10px;
+    border-radius: 10px;
+}
 #to_register {
     color: grey;
     text-decoration: underline;

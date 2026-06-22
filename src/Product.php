@@ -169,7 +169,9 @@ class Product
         try {
             $products = [];
             foreach ($partners as $key => $value) {
-                $stmt = $this->conn->prepare("SELECT ID, Name, image, Price FROM Products WHERE PartnersID = :p_id and stutus = 1");
+                $stmt = $this->conn->prepare("SELECT p.ID, p.Name, p.image, p.Price,pp.Image 
+                                              FROM Products as p join Partners as pp on p.PartnersID=pp.ID  
+                                              WHERE PartnersID = :p_id and stutus = 1");
                 $stmt->execute(["p_id" => $key]);
                 
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -182,16 +184,18 @@ class Product
             $sections = '';
             foreach ($products as $partner => $product) {
                 $div = "";
+                $img="";
                 foreach ($product as $key) {
                     $div .= '<div class="product-card" style="background-image:url(' . '/page/image/' . htmlspecialchars($key['image']) . ')"> ';
                     $div .= '<h3>'.htmlspecialchars($key['Name']).'</h3>';
                     $div .= '<p>'.htmlspecialchars($key['Price']).'€</p>';
                     $div .= '<button onclick=add_to_cart("'.htmlspecialchars(urlencode($partner)).'","'.htmlspecialchars($key['ID']).'")><i class="fas fa-shopping-cart"></i></button>';
                     $div .= '</div>';
+                    $img = $key['Image'];
                 }
-                $sections .= '<section id="'.htmlspecialchars($partner).'" class="product_slice_box">
+                $sections .= '<section id="'.htmlspecialchars($partner).'" class="product_slice_box" ">
                                <div class="pat_tittle"><h2>'.htmlspecialchars($partner).'</h2></div>
-                                 <div class="product_slice">'.$div.' </div>
+                                 <div class="product_slice" style="background-image:url(/page/image/partners/'.htmlspecialchars($img).')">'.$div.' </div>
                             </section> '; 
                             
             }

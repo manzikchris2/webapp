@@ -364,6 +364,7 @@ async function login(){
             box.innerHTML = resp.content
         }else{
             const message = document.getElementById('login_message')
+            message.style.display="block";
             message.innerText = resp.message;
         }
     }catch(Error){

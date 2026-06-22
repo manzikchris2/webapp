@@ -1,11 +1,11 @@
 <?php
 class RateLimit {
-    private PDO $pdo;
+    private PDO $conn;
     private int $maxRequests;
     private int $timeWindow;
     
-    public function __construct(PDO $pdo, $maxRequests = 60, $timeWindow = 60) {
-        $this->pdo = $pdo;
+    public function __construct(PDO $db, $maxRequests = 60, $timeWindow = 60) {
+        $this->conn = $db;
         $this->maxRequests = $maxRequests;
         $this->timeWindow = $timeWindow;
         
@@ -27,7 +27,7 @@ class RateLimit {
             $this->cleanOldRecords($windowStart);
             
             // Get current count
-            $stmt = $this->pdo->prepare("
+            $stmt = $this->conn->prepare("
                 SELECT request_count, first_request 
                 FROM rate_limits 
                 WHERE identifier = ? AND first_request > ?
@@ -37,7 +37,7 @@ class RateLimit {
             
             if (!$record) {
                 // First request in window
-                $stmt = $this->pdo->prepare("
+                $stmt = $this->conn->prepare("
                     INSERT INTO rate_limits (identifier, request_count, first_request, last_request)
                     VALUES (?, 1, ?, ?)
                 ");
@@ -63,8 +63,8 @@ class RateLimit {
                 ];
             }
             
-            // Increment counter
-            $stmt = $this->pdo->prepare("
+            
+            $stmt = $this->conn->prepare("
                 UPDATE rate_limits 
                 SET request_count = request_count + 1, last_request = ?
                 WHERE identifier = ?
@@ -79,12 +79,12 @@ class RateLimit {
             
         } catch (PDOException $e) {
             error_log("Rate limiter error: " . $e->getMessage());
-            return ['allowed' => true]; // Fail open
+            return ['allowed' => true];
         }
     }
     
-    private function cleanOldRecords($windowStart) {
-        $stmt = $this->pdo->prepare("DELETE FROM rate_limits WHERE first_request < ?");
+    private function cleanOldRecords( $windowStart) {
+        $stmt = $this->conn->prepare("DELETE FROM rate_limits WHERE first_request < ?");
         $stmt->execute([$windowStart]);
     }
 }

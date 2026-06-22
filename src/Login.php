@@ -7,43 +7,55 @@ class Login
     {
         $this->conn = $db->get_connection();
     }
-
-   /* public function sign_in(?string $email, string $pass, string $demand): string
+    protected function restart_attempts(string $id)
     {
-        switch ($demand) {
-           /* case 'customer':
-                
-                break;
-            case 'deliver':
-                return false;
-                break;
-            case 'partner':
-                $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-                return $this->check_partner($email, $pass);
-            default:
-                return json_encode(["message" => "something went wrong with demands"]);
+        $time = time();
+        $stmt = $this->conn->prepare('UPDATE Users SET status="PENDING",attempts=1,a_time=? WHERE user_id=?');
+        $stmt->execute([$time, $id]);
+    }
+    protected function check_attempts(string $id)
+    {
+        $stmt = $this->conn->prepare('SELECT attempts,a_time FROM Users WHERE user_id=?');
+        $stmt->execute([$id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row['attempts'] >= 5) {
+            $now = time() - $row['a_time'];
+            if ($now > 300) {
+                return $this->restart_attempts($id);
+            } else {
+                 $stmt = $this->conn->prepare('UPDATE Users SET status="BLOCKED" WHERE user_id=:id');
+                 $stmt->execute(['id'=> $id]);
+                 $remaining = round((300 - $now)/60);
+                return json_encode(["success" => false, 'message' => "blocked retry in ".$remaining." mins"]);
+            }
         }
-    }*/
+            $attemps = $row['attempts'] + 1;
+            $stmt = $this->conn->prepare('UPDATE Users SET attempts=:attm,a_time=:ti WHERE user_id=:id');
+            $stmt->execute(['attm'=>$attemps,':ti'=>time(),'id'=> $id]);
+            return json_encode(['success'=>false,'message'=>'remaining attempds'.(5-$attemps)]);
+        
+    }
     protected function create_session()
     {
         $ses_id =  '';
-        
-        if(isset($_COOKIE['ses_id']) && !empty($_COOKIE['ses_id'])){
+
+        if (isset($_COOKIE['ses_id']) && !empty($_COOKIE['ses_id'])) {
             $ses_id =  $_COOKIE['ses_id'];
-        }else{
+        } else {
             $ses_id =  uniqid('s-');
-            setcookie('c_session_id',$ses_id , [
-                        'expires' => time() + 86400,
-                        'domain' => 'localhost',
-                        'secure' => false,
-                        'httponly' => true,
-                        'samesite' => 'Lax'
-                    ]);
+            setcookie('c_session_id', $ses_id, [
+                'expires' => time() + 86400,
+                'domain' => 'localhost',
+                'secure' => false,
+                'httponly' => true,
+                'samesite' => 'Lax'
+            ]);
         }
         session_id($ses_id);
         session_start();
     }
-   
+
     public function otp_management(array $data, string $attr)
     {
 
@@ -74,8 +86,8 @@ class Login
             return json_encode(['success' => true, 'page' => $pages[$attr]]);
         }
     }
-    
-    
+
+
     public function change_pass(string $pass, string $attr)
     {
         $hash = password_hash($pass, PASSWORD_DEFAULT);
@@ -83,10 +95,4 @@ class Login
         $stmt->execute(['pass' => $hash, 'user' => $_SESSION['customer_id'], 'attr' => $attr]);
         return json_encode(['success' => true, $_SESSION]);
     }
-   
-   
-    
-  
 }
-
-

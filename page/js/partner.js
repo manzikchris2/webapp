@@ -154,8 +154,8 @@ async function login_p(data) {
                 document.location.replace(log_data.page);
             }, 4000);
         }
-        if (log_data.error) {
-            err.innerHTML = log_data.error;
+        if (log_data.message) {
+            err.innerHTML = log_data.message;
             err.classList.remove("hidden");
         }
     } catch (Error) {

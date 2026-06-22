@@ -131,9 +131,9 @@ span{
 }
 #big_img{
     padding: 20px;
-    width:98%;
-    height: 90%;
-    border-radius:50px;
+    width: 98%;
+    height: 125%;
+    border-radius: 50px;
 }
 #small_img{
         width: 180px;
@@ -275,6 +275,12 @@ form input{
     position: relative;
     bottom: 20px;
     margin: 0;
+    border: 1px solid red;
+    padding: 10px;
+    background-color: rgb(250, 150, 150);
+    border-radius: 10px;
+        position: relative;
+    bottom: 85px;
 }
 #show-pass{
     display:block;

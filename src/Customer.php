@@ -2,6 +2,7 @@
 
 class Customer extends Login
 {
+    private string $id;
     public function __consruct(Database $db)
     {
         parent::__construct($db);
@@ -22,18 +23,19 @@ class Customer extends Login
     private function check_user(string $email, string $pass)
     {
         try {
-            $this->conn->beginTransaction();
+            
             if (is_numeric($email)) {
-                $stmt = $this->conn->prepare("SELECT email, tel, pass,customerID from Users  WHERE tel = :tel");
+                $stmt = $this->conn->prepare("SELECT email, tel, pass,user_id,status from Users  WHERE tel = :tel");
                 $stmt->execute(['tel' => $email]);
             } else {
-                $stmt = $this->conn->prepare("SELECT email, tel, pass, user_id from Users  WHERE email = :email and attribute = 'c' ");
+                $stmt = $this->conn->prepare("SELECT email, tel, pass, user_id,status from Users  WHERE email = :email and attribute = 'c' ");
                 $stmt->execute(['email' => $email]);
             }
             $row = $stmt->fetch(pdo::FETCH_ASSOC);
             if ($row === false) {
                 throw new Exception("user not found");
             } else {
+                $this->id = $row['user_id'];
                 if (password_verify($pass, $row['pass'])) {
                     $stmt = $this->conn->prepare("SELECT * FROM User_Tokens WHERE user_id=:user");
                     $param = ['user' => $row['user_id']];
@@ -42,7 +44,11 @@ class Customer extends Login
                     if (!$row2) {
                         return json_encode('empty');
                     }
+                    if($row['status'] === 'BLOCKED'){
+                        return $this->check_attempts($this->id);
+                    }
                     $this->create_session();
+                    $this->restart_attempts($this->id);
                     $_SESSION['customer_id'] = $row['user_id'];
                     $_SESSION['user_email'] = $row['email'] ?? null;
                     $_SESSION['loggedin'] = false;
@@ -60,7 +66,7 @@ class Customer extends Login
                     ]);
 
 
-                    $this->conn->commit();
+                   
 
                     $page = '<form class="otp_check">
                             <h2 class="otp_head">Enter OTP</h2>
@@ -82,17 +88,16 @@ class Customer extends Login
                     $email = new Email($_SESSION['user_email']);
                     $otp_sent = $email->sendotp($this->conn, 'c');
                     if ($otp_sent === true) {
-                        return json_encode(["success" => true, "page" => $page, 'ses' => $_SESSION]);
+                        return json_encode(["success" => true, "page" => $page]);
                     } else {
-                        return json_encode(['success' => false, 'ses' => $_SESSION]);
+                        return json_encode(['success' => false]);
                     }
                 } else {
-                    $this->conn->rollBack();
-                    return json_encode(["success" => false, "message" => "wrong user or password"]);
+                   return $this->check_attempts($this->id);
+                    return json_encode(["success" => false, "message" => "wrong user or password",$this->id]);
                 }
             }
         } catch (Exception $th) {
-            $this->conn->rollBack();
             return json_encode(["sucess" => false, "message" => $th->getMessage(), "line" => $th->getLine(), "file" => $th->getFile()]);
         }
     }

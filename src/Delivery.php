@@ -1,19 +1,27 @@
 <?php
 Class Delivery extends Login{
+    private string $id;
     public function __constuct(Database $db){
         parent::__construct($db);
     }
      public function check_deliver(array $data)
     {
         //$user = filter_sanitize();
-        $stmt = $this->conn->prepare("SELECT pass,user_id  FROM Users WHERE email=:email and attribute = 'd'");
+        $stmt = $this->conn->prepare("SELECT pass,user_id,status  FROM Users WHERE email=:email and attribute = 'd'");
         $stmt->execute(['email' => $data['d-user']]);
         $row = $stmt->fetch(pdo::FETCH_ASSOC);
         if ($row == 'null') {
             return json_encode(['successs' => false, 'message' => "user not found"]);
-        } else {
+        }
+         else {
+            $this->id=$row['user_id'];
             $check = password_verify($data['d-pass'], $row['pass']);
             if ($check) {
+                if($row['status'] === 'BLOCKED'){
+                    return $this->check_attempts($this->id);
+                }else{
+                    $this->restart_attempts($this->id);
+                }
                 $stmt2 = $this->conn->prepare('SELECT * From User_Tokens where user_id = :user');
                 $stmt2->execute(['user' => $row['user_id']]);
                 $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
@@ -45,7 +53,7 @@ Class Delivery extends Login{
                             </form>';
                 return json_encode(['success' => true, 'content' => $html]);
             } else {
-                return json_encode(['success' => false, 'message' => 'wrong email or password']);
+                return $this->check_attempts($this->id);
             }
         }
     }

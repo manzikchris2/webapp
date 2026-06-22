@@ -1,6 +1,7 @@
 <?php
 
 class Partner extends Login{
+    private string $id;
     public function __construct(Database $db){
         parent::__construct($db);
     }
@@ -11,7 +12,7 @@ class Partner extends Login{
       private function check_partner(string $email, string $pass)
     {
         try {
-            $stmt = $this->conn->prepare("SELECT p.Image ,u.Email,u.Tel,u.pass,u.user_id FROM Users as u 
+            $stmt = $this->conn->prepare("SELECT p.Image ,u.Email,u.Tel,u.pass,u.user_id,u.status FROM Users as u 
                                           join Partners as p on p.ID = u.user_id 
                                         WHERE u.Email=:email and attribute = 'p'");
             $stmt->execute(['email' => $email]);
@@ -19,7 +20,13 @@ class Partner extends Login{
             if (!isset($row['Email'])) {
                 return json_encode(["error" => "user not found"]);
             } else {
+                $this->id=$row['user_id'];
                 if (password_verify($pass, $row['pass'])) {
+                    if($row['status'==='BLOCKED']){
+                        return $this->check_attempts($this->id);
+                    }else{
+                        $this->restart_attempts($this->id);
+                    }
                     $stmt = $this->conn->prepare("SELECT * from User_Tokens WHERE user_id = :id");
                     $param = ['id' => $row['user_id']];
                     $stmt->execute($param);
@@ -44,7 +51,7 @@ class Partner extends Login{
                     ]);
                     return json_encode(["sucess" => true, "page" => "partner_home", 'img' => $row['Image']]);
                 } else {
-                    return json_encode(["error" => "WRONG PASSWORD"]);
+                    return $this->check_attempts($this->id);
                 }
             }
         } catch (exception $th) {

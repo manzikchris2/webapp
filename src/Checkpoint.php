@@ -1,8 +1,15 @@
 <?php
+require "RateLimit.php";
+require "Database.php";
 class Checkpoint
 {
     public static function check($type = null)
+
     {
+        $db=new Database();
+        $conn = $db->get_connection();
+        $rate = new RateLimit($conn);
+        $rate->checkLimit();
         $time_dif = time() - $_SESSION['login-time'];
         if($time_dif > 900){
             return json_encode(['success' => false, 'head' => '/welcome']);
