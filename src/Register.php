@@ -86,7 +86,7 @@ class Register
             return json_encode(['success' => true]);
         } catch (Exception $th) {
             $this->conn->rollBack();
-            return json_encode(["sucess" => false, "message" => $th->getMessage(), 'query' => $query, 'param' => $param]);
+            return json_encode(["sucess" => false, "message" => $th->getMessage()]);
         }
     }
     public function update_partner(array $data)
@@ -124,7 +124,7 @@ class Register
             return json_encode(['success' => true, $param]);
         } catch (Exception $th) {
             $this->conn->rollBack();
-            return json_encode(["sucess" => false, "message" => $th->getMessage(), 'query' => $query, 'param' => $param]);
+            return json_encode(["sucess" => false, "message" => $th->getMessage()]);
         }
     }
     public function register_deliver(array $person)
