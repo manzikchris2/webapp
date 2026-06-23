@@ -1,42 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>reset</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-</head>
-<style>
-   body{
-            background-image:url('/image/backgrounds/illustration-anime-city.jpg');
-            background-repeat:no-repeat;
-            background-position:center;
-            background-size:cover;
-            display:flex;
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>reset</title>
+        <link rel="icon" type="image/x-icon" href="/favicon_io/favicon.ico" />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+    </head>
+    <style>
+        body {
+            background-image: url("/image/backgrounds/illustration-anime-city.jpg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            display: flex;
             justify-content: center;
-            align-items:center;
+            align-items: center;
             height: 100vh;
         }
-        .invalid{
+        .invalid {
             border: 3px solid red;
         }
-        #container_box{
+        #container_box {
             display: flex;
             flex-direction: column;
             width: 500px;
-            height:fit-content;
+            height: fit-content;
             padding: 20px;
             border-radius: 10px;
             border: 3px solid pink;
-            background-color:rgba(255, 192, 203, 0.456);
+            background-color: rgba(255, 192, 203, 0.456);
             gap: 10px;
         }
-        h2{
+        h2 {
             font-size: 20px;
             color: rgb(195, 106, 120);
             margin-left: 30%;
         }
-        input{
+        input {
             border: none;
             border-radius: 10px;
             padding: 10px;
@@ -45,48 +61,57 @@
             outline: none;
             font-size: 20px;
             text-align: center;
-
         }
-        input::placeholder{
-            text-align:center;
+        input::placeholder {
+            text-align: center;
             color: white;
         }
-        button{
-            border:none;
-            padding:15px;
+        button {
+            border: none;
+            padding: 15px;
             background-color: pink;
-            width:fit-content;
+            width: fit-content;
             border-radius: 10px;
             margin-left: 40%;
-            color:honeydew;
-            transition:all  2s ease; 
+            color: honeydew;
+            transition: all 2s ease;
         }
-        button:hover{
-            background:  linear-gradient(to bottom right,  pink,rgb(0, 213, 255));
-            
-
+        button:hover {
+            background: linear-gradient(
+                to bottom right,
+                pink,
+                rgb(0, 213, 255)
+            );
         }
-        span{
+        span {
             color: aqua;
             position: relative;
             bottom: 40px;
             left: 93%;
             width: 20px;
         }
-        #message_r{
-            display:none;
+        #message_r {
+            display: none;
         }
-</style>
-<body>
-    <form id="container_box">
-        <h2> update password</h2>
-        <input type="password" id="pass"  placeholder=" password">
-        <span id="show_pass"class="fas fa-eye" onclick="show('pass')"></span>
-        <input type="password" id="c_pass" placeholder="confirm password">
-        <span class="fas fa-eye" id="show_c_pass" onclick="show('c_pass')"></span>
-        <p id="message_r"></p>
-        <button type="submit" id="change">change</button>
-    </form>
-    <script src="page/js/forgot.js"></script>
-</body>
+    </style>
+    <body>
+        <form id="container_box">
+            <h2>update password</h2>
+            <input type="password" id="pass" placeholder=" password" />
+            <span
+                id="show_pass"
+                class="fas fa-eye"
+                onclick="show('pass')"
+            ></span>
+            <input type="password" id="c_pass" placeholder="confirm password" />
+            <span
+                class="fas fa-eye"
+                id="show_c_pass"
+                onclick="show('c_pass')"
+            ></span>
+            <p id="message_r"></p>
+            <button type="submit" id="change">change</button>
+        </form>
+        <script src="page/js/forgot.js"></script>
+    </body>
 </html>

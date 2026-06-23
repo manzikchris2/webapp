@@ -6,7 +6,6 @@ let interval;
 
 function update_history(state, title, url) {
     if (isrestoring) {
-        console.log("Skipping history update during restore");
         return;
     }
 
@@ -41,30 +40,23 @@ function restore_page_state() {
     if (saved) {
         try {
             const { state, url } = JSON.parse(saved);
-            console.log("Parsed state:", state);
 
             if (state && state.page === "products" && state.category) {
-                console.log(
-                    "Restoring products from state, ID:",
-                    state.category,
-                );
-                loadProducts(state.category, state.action, true); // Pass true for restore
+                loadProducts(state.category, state.action, true); 
             } else if (state && state.page === "cart" && state.orderId) {
-                console.log("Restoring cart from state, ID:", state.orderId);
                 go_to_cart(state.orderId, null, true);
             } else if (state && state.page === "search-result" && state.query) {
-                console.log("Restoring search from state:", state.query);
                 get_prod(state.query, state.type, true);
             } else if (state && state.page === "home") {
-                console.log("Restoring home from state");
                 get_all(true);
             }
         } catch (e) {
-            console.log("Failed to parse saved state:", e);
+            alert('server issue');
+            window.location.reload();
+            exit();
         }
     } else {
         const path = window.location.pathname;
-        console.log("No valid saved state, restoring from URL:", path);
 
         let match = path.match(/\/home\/category\/(\d+)/);
         if (match) {
@@ -75,7 +67,6 @@ function restore_page_state() {
 
     setTimeout(() => {
         isrestoring = false;
-        console.log("Restore complete");
     }, 100);
 }
 function loader(name) {
@@ -110,13 +101,12 @@ function show(id, formid) {
 }
 
 function searchHandler(e) {
-    console.log(e.target.id);
     const search = document.getElementById("search");
     const main = document.getElementById("main_view_all");
     if (e.target.id !== "search-show-content") {
         search.style.display = "none";
         main.style.zIndex = "";
-        //hide_cat_side(false);
+        
     }
 }
 
@@ -202,7 +192,6 @@ function loadProducts(cat, action, fromRestore = false) {
 
     if (action === "cat") {
         req = { cat_id: cat };
-        // Only add to history if NOT from restore
         if (!fromRestore) {
             console.log(
                 "Adding history for category:",
@@ -222,14 +211,11 @@ function loadProducts(cat, action, fromRestore = false) {
         req = { part_id: cat };
 
         if (!fromRestore) {
-            console.log("Adding history for partner:", `/home/partner/${cat}`);
             update_history(
                 { page: "products", category: cat, action: "part" },
                 "Partner Products",
                 `/home/partner/${cat}`,
             );
-        } else {
-            console.log("Skipping history for restore");
         }
         by_category(req);
     }
@@ -242,7 +228,6 @@ function trans_form(a) {
     reg_div.style.animation = "none";
     void log_div.offsetHeight;
     void reg_div.offsetHeight;
-    console.log(a);
     if (a === 1) {
         log_div.style.animation = "slide 1s linear 0s forwards";
         setTimeout(() => {

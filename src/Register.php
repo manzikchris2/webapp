@@ -166,6 +166,12 @@ class Register
     {
         try {
             $this->conn->beginTransaction();
+            if($this->check_mail($email,'c')){
+                return json_encode(["success"=>false,'message'=>'email already in use']);
+            }
+            if($this->check_tel($tel,'c')){
+                return json_encode(["success"=>false,'message'=>'tel already in use']);
+            }
             $stmt = $this->conn->prepare("INSERT INTO Customers(fname,lname,adress) VALUES(:name,:lastname,:address)");
             $params = ['name' => $name, 'lastname' => $surname, 'address' => $address];
             $res = $stmt->execute($params);

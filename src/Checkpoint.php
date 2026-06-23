@@ -6,16 +6,11 @@ class Checkpoint
     public static function check($type = null)
 
     {
-        $db=new Database();
-        $conn = $db->get_connection();
-        $rate = new RateLimit($conn);
-        $rate->checkLimit();
-        $time_dif = time() - $_SESSION['login-time'];
-        if($time_dif > 900){
-            return json_encode(['success' => false, 'head' => '/welcome']);
-        }else{
-            $_SESSION['login-time'] = time();
+        if(!isset($_SESSION)){
+            header('location:/welcome');
+            exit();
         }
+       
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] === false) {
             return json_encode(['success' => false, 'head' => '/welcome']);
         }
@@ -46,6 +41,18 @@ class Checkpoint
     
         else {
             return true;
+        }
+    }
+    private function check_time(){
+         $db=new Database();
+        $conn = $db->get_connection();
+        $rate = new RateLimit($conn);
+        $rate->checkLimit();
+        $time_dif = time() - $_SESSION['login-time'];
+        if($time_dif > 900){
+            return json_encode(['success' => false, 'head' => '/welcome']);
+        }else{
+            $_SESSION['login-time'] = time();
         }
     }
     public static function logout(string $attr)
