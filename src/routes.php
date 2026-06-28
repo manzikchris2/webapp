@@ -168,7 +168,7 @@ function route(string $method, string $path)
         $customer = new Customer(new Database());
         return $customer->profile_customer();
     });
-    $router->get('/deliver/profile', function () {
+    $router->post('/deliver/profile', function () {
         Checkpoint::check('deliver');
         $customer = new Delivery(new Database());
         return $customer->profile_deliver();
@@ -603,7 +603,7 @@ function route(string $method, string $path)
     });
     $router->get('/home', function () {
         if (Checkpoint::check('customer') !== true) {
-            header('location:/welcome');
+            return Checkpoint::check('customer');
         }
         header("content-type: text/html");
         readfile(__DIR__ . '/../page/home2.html');
@@ -611,7 +611,7 @@ function route(string $method, string $path)
     });
     $router->get('/payment', function () {
         if (Checkpoint::check('customer') !== true) {
-            header('location:/welcome');
+           return Checkpoint::check('customer');
         }
         header("content-type:text/html");
         readfile(__DIR__ . '/../page/payment.html');

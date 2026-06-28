@@ -1,4 +1,5 @@
 <?php
+set_exception_handler("ErrorHandler::handle_exception");
 class Search{
     private PDO $conn;
     public function __construct(Database $db){
@@ -59,8 +60,9 @@ class Search{
         $data = [];
         $search_key = "%".$key."%";
         $stmt = $this->conn->prepare("SELECT p.Bname, p.image, pu.Tel From Partners as p 
-                                     join Partners_users as pu on p.ID = pu.PartnersID 
+                                     join Users as pu on p.ID = pu.user_id  
                                      WHERE p.Bname like :given 
+                                     and pu.attribute = 'p'
                                      limit 5");
         $stmt->execute(["given"=>$search_key]);
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){

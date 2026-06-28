@@ -1,5 +1,6 @@
 <?php
 require __DIR__ . '/Email.php';
+set_exception_handler("ErrorHandler::handle_exception");
 class Login
 {
     protected PDO $conn;
@@ -43,7 +44,7 @@ class Login
         if (isset($_COOKIE['ses_id']) && !empty($_COOKIE['ses_id'])) {
             $ses_id =  $_COOKIE['ses_id'];
         } else {
-            $ses_id =  uniqid('s-');
+            $ses_id =  bin2hex(random_bytes(8));
             setcookie('c_session_id', $ses_id, [
                 'expires' => time() + 86400,
                 'domain' => 'localhost',

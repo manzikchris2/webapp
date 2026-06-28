@@ -1,18 +1,18 @@
 <?php
 require "RateLimit.php";
 require "Database.php";
+set_exception_handler("ErrorHandler::handle_exception");
 class Checkpoint
 {
     public static function check($type = null)
 
     {
-        if(!isset($_SESSION)){
-            header('location:/welcome');
-            exit();
-        }
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+              return ['success' => false, 'head' => '/welcome', header('Location:/welcome')];
+          }
        
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] === false) {
-            return json_encode(['success' => false, 'head' => '/welcome']);
+            return json_encode(['success' => false, 'head' => '/welcome',header('Location:/welcome')]);
         }
         if (!isset($_SESSION['customer_id']) && !isset($_SESSION['PartnersID']) && !isset($_SESSION['deliver_id'])) {
             return json_encode(['success' => false, 'head' => '/welcome']);
@@ -26,10 +26,26 @@ class Checkpoint
         if ($type === 'deliver' && !isset($_SESSION['deliver_id'])) {
             return json_encode(['success' => false, 'head' => '/welcome']);
         }
+        if(!isset($_SESSION['login-time'])){
+             return json_encode(['success' => false, 'head' => '/welcome']);
+        }
+        $db=new Database();
+        $conn = $db->get_connection();
+        $rate = new RateLimit($conn);
+        $rate->checkLimit();
+        $time_dif = time() - $_SESSION['login-time'];
+        if($time_dif > 900){
+            return json_encode(['success' => false, 'head' => '/welcome', readfile(__DIR__ . '/../page/home.html')]);
+        }else{
+            $_SESSION['login-time'] = time();
+        }
         return true;
     }
     public static function rider()
     {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+              return ['success' => false, 'head' => '/deliver'];
+          }
         
         if(isset($_SESSION['order']) && isset($_SESSION['order']['active']) && $_SESSION['order']['active'] === true){
             return json_encode([
@@ -43,18 +59,7 @@ class Checkpoint
             return true;
         }
     }
-    private function check_time(){
-         $db=new Database();
-        $conn = $db->get_connection();
-        $rate = new RateLimit($conn);
-        $rate->checkLimit();
-        $time_dif = time() - $_SESSION['login-time'];
-        if($time_dif > 900){
-            return json_encode(['success' => false, 'head' => '/welcome']);
-        }else{
-            $_SESSION['login-time'] = time();
-        }
-    }
+   
     public static function logout(string $attr)
     {
         try {
@@ -82,8 +87,7 @@ class Checkpoint
             ]);
         } catch (Exception $e) {
             return json_encode([
-                "success" => false,
-                "message" => $e->getMessage()
+                "success" => false
             ]);
         }
     }

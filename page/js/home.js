@@ -154,14 +154,17 @@ function hide_cat_side(action) {
 
 function hide_search(action) {
     const box = document.getElementById("search-show-content");
+    const main_all = document.getElementById("main_view_all");
     box.style.animation = "none";
     void box.offsetHeight;
     if (action) {
         box.style.animation = "shrink-box 0.5s ease 0s forwards";
         box.style.display = "none";
+        main_all.style.pointerEvents = "all";
     } else {
         box.style.display = "flex";
         box.style.animation = "shrink-box 0.5s ease 0s reverse";
+        main_all.style.pointerEvents = "none";
     }
 }
 
@@ -391,6 +394,9 @@ async function change_pass(){
         }else{
             if(resp.head){
                 window.location.replace(resp.head)
+            }else{
+                alert('server issues we are sorry for the issue');
+                window.location.reload();
             }
         }
 

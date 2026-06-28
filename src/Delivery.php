@@ -1,4 +1,5 @@
 <?php
+set_exception_handler("ErrorHandler::handle_exception");
 Class Delivery extends Login{
     private string $id;
     public function __constuct(Database $db){

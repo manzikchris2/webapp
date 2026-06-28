@@ -1,4 +1,5 @@
 <?php
+set_exception_handler("ErrorHandler::handle_exception");
 class Payment{
     private PDO $conn;
     public function __construct(database $db){

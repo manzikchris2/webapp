@@ -1,5 +1,5 @@
 <?php
-
+set_exception_handler("ErrorHandler::handle_exception");
 class Partner extends Login{
     private string $id;
     public function __construct(Database $db){

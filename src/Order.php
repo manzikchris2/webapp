@@ -1,6 +1,7 @@
 <?php
-
+set_exception_handler("ErrorHandler::handle_exception");
 class Order{
+
     private PDO $conn;
     private  $order_id;
     public function __construct(Database $db){

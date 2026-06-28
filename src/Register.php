@@ -1,4 +1,5 @@
 <?php
+set_exception_handler("ErrorHandler::handle_exception");
 class Register
 {
     private PDO $conn;
@@ -150,9 +151,9 @@ class Register
             $stmt2 = $this->conn->prepare('INSERT INTO Users(user_id,Email,Tel,pass,attribute) values(:id,:email,:tel,:pass,"d")');
             $stmt2->execute(['id' => $id, 'email' => $email, 'tel' => $tel, 'pass' => $pass]);
             $token = substr(uniqid('T-'), 0, 8);
-            $session = substr(uniqid('s-'), 0, 8);
-            $stmt3 = $this->conn->prepare("INSERT into User_Tokens(token_id,user_id,session_id,time) values(:token,:user,:session_id,:time)");
-            $stmt3->execute(['token' => $token, 'user' => $id, 'session_id' => $session, 'time' => time()]);
+            $session = bin2hex(random_bytes(8));
+            $stmt3 = $this->conn->prepare("INSERT into User_Tokens(token_id,user_id,time) values(:token,:user,:session_id,:time)");
+            $stmt3->execute(['token' => $token, 'user' => $id, 'time' => time()]);
             $this->conn->commit();
             return json_encode(['success' => true]);
             }catch(Exception $th){
@@ -209,8 +210,8 @@ class Register
                     $stmt2->execute(['pass' => $hash, 'email' => $email, 'tel' => $tel, 'id' => $id]);
                     $token = substr(uniqid('T-'), 0, 8);
                     $session = substr(uniqid('s-'), 0, 8);
-                    $stmt2 = $this->conn->prepare("INSERT into User_Tokens(token_id,user_id,session_id,time) values(:token,:user,:session_id,:time)");
-                    $stmt2->execute(['token' => $token, 'user' => $id, 'session_id' => $session, 'time' => time()]);
+                    $stmt2 = $this->conn->prepare("INSERT into User_Tokens(token_id,user_id,time) values(:token,:user,:session_id,:time)");
+                    $stmt2->execute(['token' => $token, 'user' => $id, 'time' => time()]);
                     $this->conn->commit();
                     return json_encode(["message" => "suceesfully"]);
                 }

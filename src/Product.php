@@ -1,5 +1,6 @@
 <?php
 require 'Categories.php';
+set_exception_handler("ErrorHandler::handle_exception");
 class Product
 {
     private PDO $conn;
@@ -193,9 +194,9 @@ class Product
                     $div .= '</div>';
                     $img = $key['Image'];
                 }
-                $sections .= '<section id="'.htmlspecialchars($partner).'" class="product_slice_box" ">
+                $sections .= '<section id="'.htmlspecialchars($partner).'" class="product_slice_box" style="background-image:url(/page/image/partners/'.htmlspecialchars($img).')"">
                                <div class="pat_tittle"><h2>'.htmlspecialchars($partner).'</h2></div>
-                                 <div class="product_slice" style="background-image:url(/page/image/partners/'.htmlspecialchars($img).')">'.$div.' </div>
+                                 <div class="product_slice" >'.$div.' </div>
                             </section> '; 
                             
             }

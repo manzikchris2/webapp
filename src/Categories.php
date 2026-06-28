@@ -1,4 +1,5 @@
 <?php
+set_exception_handler("ErrorHandler::handle_exception");
 Class Categories {
     private PDO $conn;
     

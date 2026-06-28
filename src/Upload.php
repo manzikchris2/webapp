@@ -1,5 +1,6 @@
 <?php
 require "Register.php";
+set_exception_handler("ErrorHandler::handle_exception");
 class Upload{
     private  array $options = ['image/jpg','image/jpeg','image/png','image/webp'];
    public function upload(string $demand, array $file,string $f_name){

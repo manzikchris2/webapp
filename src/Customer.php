@@ -1,5 +1,5 @@
 <?php
-
+set_exception_handler("ErrorHandler::handle_exception");
 class Customer extends Login
 {
     private string $id;
