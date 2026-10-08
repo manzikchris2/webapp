@@ -79,7 +79,7 @@ class Login
         $deficite = $current_time - $row['ot_time'];
         if ($deficite > 60) {
             return json_encode(['success' => false, 'message' => ' this otp expired']);
-        } else if ($data['otp'] == ! $row['otp']) {
+        } else if ($data['otp'] != $row['otp']) {
             return json_encode(['success' => false, 'message' => ' otp invalid ']);
         } else {
             $pages = ['c' => '/home', 'p' => '/patrner/home', 'd' => '/deliver/murugo'];

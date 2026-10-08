@@ -123,6 +123,12 @@ class Search{
                 while($row=$stmt->fetch(PDO::FETCH_ASSOC)){
                     $data[]=$row;
                     }
+                    if(empty($data)){
+                        $bac = '<div class="search_index">
+                                  <h>the searcherd entity is not aviliable yet</h>
+                               </div>';
+                        return json_encode(["success"=> true, "content"=>$bac]);
+                    }
 
                     $html .= '<div class="search_index">
                             <h>'.htmlspecialchars($data[0]['Bname']).'</h>

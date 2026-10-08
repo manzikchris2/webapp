@@ -1,6 +1,6 @@
-/* ====================
+/*
    IMPORTS & BASE STYLES
-   ==================== */
+ */
 @import url("https://fonts.googleapis.com/css2?family=Autour+One&family=Cherry+Bomb+One&family=Google+Sans+Code:ital,wght,MONO@0,300..800,1;1,300..800,1&family=Zen+Dots&display=swap");
 
 * {
@@ -24,9 +24,9 @@ body::-webkit-scrollbar {
     display: none;
 }
 
-/* ====================
+/* 
    BACKGROUND
-   ==================== */
+ */
 .body_img {
     background-image: url("/page/image/mainwall.jpg");
     background-size: cover;
@@ -35,9 +35,9 @@ body::-webkit-scrollbar {
     background-attachment: fixed;
     min-height: 100vh;
 }
-/* ===================
+/* 
      loader
-  ====================*/
+*/
 
 #loader_container {
     width: 100%;
@@ -69,9 +69,7 @@ body::-webkit-scrollbar {
     }
 }
 
-/* ====================
-   UTILITY CLASSES
-   ==================== */
+
 .hidden {
     display: none;
     pointer-events: none;
@@ -517,7 +515,7 @@ span:hover {
    ==================== */
 .product_slice_box {
        justify-content: center;
-  
+       background-image:url('/page/image/backgrounds/3862943.jpg');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     display: flex;
@@ -527,6 +525,7 @@ span:hover {
     overflow: hidden;
     gap: 20px;
     align-items: center;
+    border-radius:10px;
 }
 
 
@@ -788,7 +787,7 @@ span:hover {
 }
 
 .search_index {
-    width: 100%;
+    width: 95%;
     margin: 10px 19px 10px 20px;
     height: 300px;
     background-color: black;

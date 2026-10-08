@@ -6,16 +6,13 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/..');
 $dotenv->load();
 
 // Use credentials
-$dbHost = $_ENV['DB_HOST'];
-$dbName = $_ENV['DB_NAME'];
-$dbUser = $_ENV['DB_USER'];
-$dbPass = $_ENV['DB_PASS'];
+
 class Database{
     public PDO $conn;
-    private  $host; 
-    private  $user;
-    private  $pass;
-    private  $db_name;
+    private  string $host; 
+    private  string $user;
+    private  string $pass;
+    private  string $db_name;
     public function __construct(){
         $this->host = $_ENV['DB_HOST'] ?? 'localhost';
         $this->user = $_ENV['DB_USER'] ?? 'root';

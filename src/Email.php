@@ -4,16 +4,20 @@ set_exception_handler("ErrorHandler::handle_exception");
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/..');
+$dotenv->load();
 
 class Email
 {
     private string $reciver;
-    private  string $sender = 'manzikchris2@gmail.com';
-    private  string $pass = 'yxmo fdks shjh podz';
+    private  string $sender ;
+    private  string $pass;
     private PHPMailer $mail;
     private PDO $conn;
     public function __construct(string $email)
     {
+        $this->sender = $_ENV['MY_E'];
+        $this->pass = $_ENV['E_pass'];
         $this->reciver = $email;
         $this->mail = new PHPMailer(true);
     }

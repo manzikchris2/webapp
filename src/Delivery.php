@@ -2,7 +2,7 @@
 set_exception_handler("ErrorHandler::handle_exception");
 Class Delivery extends Login{
     private string $id;
-    public function __constuct(Database $db){
+    public function __construct(Database $db){
         parent::__construct($db);
     }
      public function check_deliver(array $data)
@@ -23,9 +23,6 @@ Class Delivery extends Login{
                 }else{
                     $this->restart_attempts($this->id);
                 }
-                $stmt2 = $this->conn->prepare('SELECT * From User_Tokens where user_id = :user');
-                $stmt2->execute(['user' => $row['user_id']]);
-                $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
                 $this->create_session();
                 $_SESSION['deliver_id'] = $row['user_id'];
                 $_SESSION['user_email'] = $data['d-user'];
