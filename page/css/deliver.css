@@ -105,9 +105,11 @@ home nav
 #settings {
     color: white;
     position: relative;
-    left: 86%;
+    left: 82%;
     top: 30px;
     font-size: 23px;
+    align-content: center;
+    height: 25px;
 }
 #main-log {
     position: relative;

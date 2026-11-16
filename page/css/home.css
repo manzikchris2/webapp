@@ -617,7 +617,7 @@ span:hover {
     color: rgb(151, 219, 242);
     position: relative;
     top: 75px;
-    left: 100px;
+    left: 80px;
     transition: all 1s ease;
 }
 
@@ -775,7 +775,7 @@ span:hover {
     position: relative;
     color: rgb(114, 215, 242);
     background-color: black;
-    top: 55px;
+    top: 90px;
     padding: 0 5px;
     border-radius: 5px;
 }
@@ -1018,10 +1018,9 @@ span:hover {
 
 .bin-btn {
     position: relative;
-    bottom: 15px;
-    left: 315px;
+    left: 240px;
     color: rgb(6, 149, 197);
-    top: 35px;
+    top: 39px;
     width: 23px;
     padding: 4px;
     border-radius: 5px;
