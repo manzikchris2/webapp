@@ -263,7 +263,9 @@ window.addEventListener('click',async(e)=>{
     if(e.target.id === 'profiel'){
          const box = document.getElementById('side_div')
     
-        const response = await fetch('http://localhost:80/deliver/profile')
+        const response = await fetch('http://localhost:80/deliver/profile',{
+            method:'POST'
+        })
         if(!response.ok){throw new Error('failed to get profile')}
         const resp= await response.json();
         if(resp.success){

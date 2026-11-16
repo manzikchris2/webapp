@@ -8,11 +8,12 @@ class Checkpoint
 
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
-              return ['success' => false, 'head' => '/welcome', header('Location:/welcome')];
+            header("location:/welcome");
+              exit;
           }
        
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] === false) {
-            return json_encode(['success' => false, 'head' => '/welcome',header('Location:/welcome')]);
+            return json_encode(['success' => false, 'head' => '/welcome']);
         }
         if (!isset($_SESSION['customer_id']) && !isset($_SESSION['PartnersID']) && !isset($_SESSION['deliver_id'])) {
             return json_encode(['success' => false, 'head' => '/welcome']);
