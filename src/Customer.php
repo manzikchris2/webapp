@@ -3,7 +3,7 @@ set_exception_handler("ErrorHandler::handle_exception");
 class Customer extends Login
 {
     private string $id;
-    public function __consruct(Database $db)
+    public function __construct(Database $db)
     {
         parent::__construct($db);
     }
@@ -37,13 +37,7 @@ class Customer extends Login
             } else {
                 $this->id = $row['user_id'];
                 if (password_verify($pass, $row['pass'])) {
-                    $stmt = $this->conn->prepare("SELECT * FROM User_Tokens WHERE user_id=:user");
-                    $param = ['user' => $row['user_id']];
-                    $stmt->execute($param);
-                    $row2 = $stmt->fetch(PDO::FETCH_ASSOC);
-                    if (!$row2) {
-                        return json_encode('empty');
-                    }
+                   
                     if($row['status'] === 'BLOCKED'){
                         return $this->check_attempts($this->id);
                     }

@@ -22,19 +22,12 @@ class Partner extends Login{
             } else {
                 $this->id=$row['user_id'];
                 if (password_verify($pass, $row['pass'])) {
-                    if($row['status'==='BLOCKED']){
+                    if($row['status']==='BLOCKED'){
                         return $this->check_attempts($this->id);
                     }else{
                         $this->restart_attempts($this->id);
                     }
-                    $stmt = $this->conn->prepare("SELECT * from User_Tokens WHERE user_id = :id");
-                    $param = ['id' => $row['user_id']];
-                    $stmt->execute($param);
-                    $row2 = $stmt->fetch(PDO::FETCH_ASSOC);
-                    if (!$row2) {
-                        return json_encode(['mess' => $row2, 'id' => $row['user_id']]);
-                    }
-
+                   
                     $this->create_session();
                     $_SESSION['PartnersID'] = $row['user_id'] ?? null;
                     $_SESSION['email'] = $row['Email'];
@@ -42,13 +35,7 @@ class Partner extends Login{
                     $_SESSION['login-time'] = time();
                     $_SESSION['on'] = "partner";
 
-                    setcookie('p_session_id', $row2['session_id'], [
-                        'expires' => time() + 86400,
-                        'domain' => 'localhost',
-                        'secure' => false,
-                        'httponly' => false,
-                        'samesite' => 'Lax'
-                    ]);
+                  
                     return json_encode(["sucess" => true, "page" => "partner_home", 'img' => $row['Image']]);
                 } else {
                     return $this->check_attempts($this->id);

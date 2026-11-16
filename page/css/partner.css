@@ -101,7 +101,7 @@ body{
 }
 #home_nav a{
     position: relative;
-    right:37%
+    right:36%
 }
 button{
     padding: 10px;
@@ -172,7 +172,7 @@ span{
 }
 #menu-btn{
     position: relative;
-    left: 38%;
+    left: 36%;
 }
 
 form{
@@ -184,8 +184,8 @@ form{
 
 .container i{
     position: relative;
-    bottom: 35px;
-    right: 160px;
+    bottom: 36px;
+    right: 110px;
     color:rgb(3, 69, 84)
 }
 form input{
@@ -287,7 +287,7 @@ form input{
     width: 20px;
     position: relative;
     bottom: 70px;
-    left: 155px;
+    left: 110px;
     background-color: transparent;
 }
 #partnet-login{
